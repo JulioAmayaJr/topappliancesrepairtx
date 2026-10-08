@@ -1,0 +1,9 @@
+.env
+node_modules/
+.DS_Store
+/tmp/
+/backups/*.sql
+/backups/*.sql.gz
+/test-results/
+/lighthouse/*.html
+*.log

@@ -1,0 +1,432 @@
+{
+ "services": [
+  {
+   "slug": "refrigerator-repair",
+   "title": "Refrigerator Repair",
+   "short": "Refrigerator",
+   "icon": "refrigerator",
+   "tagline": "Not cooling, leaking, noisy"
+  },
+  {
+   "slug": "washer-repair",
+   "title": "Washer Repair",
+   "short": "Washer",
+   "icon": "washer",
+   "tagline": "Won’t drain, spin or start"
+  },
+  {
+   "slug": "dryer-repair",
+   "title": "Dryer Repair",
+   "short": "Dryer",
+   "icon": "dryer",
+   "tagline": "No heat, won’t tumble"
+  },
+  {
+   "slug": "dishwasher-repair",
+   "title": "Dishwasher Repair",
+   "short": "Dishwasher",
+   "icon": "dishwasher",
+   "tagline": "Not cleaning or draining"
+  },
+  {
+   "slug": "stove-oven-repair",
+   "title": "Stove & Oven Repair",
+   "short": "Stove & Oven",
+   "icon": "stove-oven",
+   "tagline": "Burners, igniters, temperature"
+  },
+  {
+   "slug": "cooktop-repair",
+   "title": "Cooktop Repair",
+   "short": "Cooktop",
+   "icon": "cooktop",
+   "tagline": "Burners that won’t light or heat"
+  },
+  {
+   "slug": "ice-maker-repair",
+   "title": "Ice Maker Repair",
+   "short": "Ice Maker",
+   "icon": "ice-maker",
+   "tagline": "No ice, leaks, jams"
+  },
+  {
+   "slug": "freezer-repair",
+   "title": "Freezer Repair",
+   "short": "Freezer",
+   "icon": "freezer",
+   "tagline": "Frost buildup, not freezing"
+  },
+  {
+   "slug": "microwave-repair",
+   "title": "Microwave Repair",
+   "short": "Microwave",
+   "icon": "microwave",
+   "tagline": "Not heating, dead keypad"
+  },
+  {
+   "slug": "garbage-disposal-repair",
+   "title": "Garbage Disposal Repair",
+   "short": "Garbage Disposal",
+   "icon": "garbage-disposal",
+   "tagline": "Jammed, humming, leaking"
+  },
+  {
+   "slug": "dryer-vent-cleaning",
+   "title": "Dryer Vent Cleaning",
+   "short": "Dryer Vent",
+   "icon": "dryer-vent",
+   "tagline": "Long dry times, lint buildup"
+  }
+ ],
+ "brands": [
+  {
+   "title": "Sub-Zero",
+   "premium": true
+  },
+  {
+   "title": "Whirlpool",
+   "premium": false
+  },
+  {
+   "title": "GE",
+   "premium": false
+  },
+  {
+   "title": "Samsung",
+   "premium": false
+  },
+  {
+   "title": "LG",
+   "premium": false
+  },
+  {
+   "title": "Bosch",
+   "premium": false
+  },
+  {
+   "title": "Thermador",
+   "premium": false
+  },
+  {
+   "title": "KitchenAid",
+   "premium": false
+  },
+  {
+   "title": "Jenn-Air",
+   "premium": false
+  },
+  {
+   "title": "Maytag",
+   "premium": false
+  },
+  {
+   "title": "Kenmore",
+   "premium": false
+  },
+  {
+   "title": "Viking",
+   "premium": false
+  },
+  {
+   "title": "Amana",
+   "premium": false
+  },
+  {
+   "title": "Admiral",
+   "premium": false
+  },
+  {
+   "title": "Thor",
+   "premium": false
+  }
+ ],
+ "areas": [
+  {
+   "title": "Houston",
+   "slug": "houston",
+   "lat": 29.7604,
+   "lng": -95.3698,
+   "county": "Harris",
+   "zips": [
+    "77002",
+    "77003",
+    "77004",
+    "77005",
+    "77006",
+    "77007",
+    "77008",
+    "77009",
+    "77010",
+    "77011",
+    "77012",
+    "77013",
+    "77014",
+    "77015",
+    "77016",
+    "77017",
+    "77018",
+    "77019",
+    "77020",
+    "77021",
+    "77022",
+    "77023",
+    "77024",
+    "77025",
+    "77026",
+    "77027",
+    "77028",
+    "77029",
+    "77030",
+    "77031",
+    "77032",
+    "77033",
+    "77034",
+    "77035",
+    "77036",
+    "77037",
+    "77038",
+    "77039",
+    "77040",
+    "77041",
+    "77042",
+    "77043",
+    "77044",
+    "77045",
+    "77046",
+    "77047",
+    "77048",
+    "77049",
+    "77050",
+    "77051",
+    "77052",
+    "77053",
+    "77054",
+    "77055",
+    "77056",
+    "77057",
+    "77058",
+    "77059",
+    "77060",
+    "77061",
+    "77062",
+    "77063",
+    "77064",
+    "77065",
+    "77066",
+    "77067",
+    "77068",
+    "77069",
+    "77070",
+    "77071",
+    "77072",
+    "77073",
+    "77074",
+    "77075",
+    "77076",
+    "77077",
+    "77078",
+    "77079",
+    "77080",
+    "77081",
+    "77082",
+    "77083",
+    "77084",
+    "77085",
+    "77086",
+    "77087",
+    "77088",
+    "77089",
+    "77090",
+    "77091",
+    "77092",
+    "77093",
+    "77094",
+    "77095",
+    "77096",
+    "77097",
+    "77098",
+    "77099"
+   ]
+  },
+  {
+   "title": "Katy",
+   "slug": "katy",
+   "lat": 29.7858,
+   "lng": -95.8245,
+   "county": "Fort Bend / Harris / Waller",
+   "zips": [
+    "77449",
+    "77450",
+    "77491",
+    "77492",
+    "77493",
+    "77494"
+   ]
+  },
+  {
+   "title": "Cypress",
+   "slug": "cypress",
+   "lat": 29.9691,
+   "lng": -95.6972,
+   "county": "Harris",
+   "zips": [
+    "77410",
+    "77429",
+    "77433"
+   ]
+  },
+  {
+   "title": "Richmond",
+   "slug": "richmond",
+   "lat": 29.5822,
+   "lng": -95.7608,
+   "county": "Fort Bend",
+   "zips": [
+    "77406",
+    "77407",
+    "77469"
+   ]
+  },
+  {
+   "title": "Fulshear",
+   "slug": "fulshear",
+   "lat": 29.693,
+   "lng": -95.8999,
+   "county": "Fort Bend",
+   "zips": [
+    "77441"
+   ]
+  },
+  {
+   "title": "Jersey Village",
+   "slug": "jersey-village",
+   "lat": 29.8877,
+   "lng": -95.5639,
+   "county": "Harris",
+   "zips": [
+    "77040",
+    "77064",
+    "77065"
+   ]
+  },
+  {
+   "title": "Cinco Ranch",
+   "slug": "cinco-ranch",
+   "lat": 29.7389,
+   "lng": -95.7577,
+   "county": "Fort Bend",
+   "zips": [
+    "77450",
+    "77494"
+   ]
+  },
+  {
+   "title": "Hockley",
+   "slug": "hockley",
+   "lat": 30.0277,
+   "lng": -95.8441,
+   "county": "Harris / Waller",
+   "zips": [
+    "77447"
+   ]
+  },
+  {
+   "title": "Sugar Land",
+   "slug": "sugar-land",
+   "lat": 29.6197,
+   "lng": -95.6349,
+   "county": "Fort Bend",
+   "zips": [
+    "77478",
+    "77479",
+    "77487",
+    "77496",
+    "77498"
+   ]
+  },
+  {
+   "title": "The Woodlands",
+   "slug": "the-woodlands",
+   "lat": 30.1658,
+   "lng": -95.4613,
+   "county": "Montgomery",
+   "zips": [
+    "77380",
+    "77381",
+    "77382",
+    "77384",
+    "77385",
+    "77387",
+    "77389"
+   ]
+  },
+  {
+   "title": "Spring",
+   "slug": "spring",
+   "lat": 30.0799,
+   "lng": -95.4172,
+   "county": "Harris",
+   "zips": [
+    "77373",
+    "77379",
+    "77386",
+    "77388",
+    "77389",
+    "77391",
+    "77393"
+   ]
+  },
+  {
+   "title": "Tomball",
+   "slug": "tomball",
+   "lat": 30.0972,
+   "lng": -95.6161,
+   "county": "Harris",
+   "zips": [
+    "77375",
+    "77377"
+   ]
+  },
+  {
+   "title": "Bellaire",
+   "slug": "bellaire",
+   "lat": 29.7058,
+   "lng": -95.4588,
+   "county": "Harris",
+   "zips": [
+    "77401",
+    "77402"
+   ]
+  },
+  {
+   "title": "Memorial",
+   "slug": "memorial",
+   "lat": 29.7647,
+   "lng": -95.518,
+   "county": "Harris",
+   "zips": [
+    "77024",
+    "77079"
+   ]
+  },
+  {
+   "title": "The Heights",
+   "slug": "the-heights",
+   "lat": 29.798,
+   "lng": -95.398,
+   "county": "Harris",
+   "zips": [
+    "77008",
+    "77009"
+   ]
+  }
+ ],
+ "appliances": [
+  "Refrigerator",
+  "Washer",
+  "Dryer",
+  "Dishwasher",
+  "Oven & Range",
+  "Microwave"
+ ]
+}

@@ -1,0 +1,45 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","className":"ta-site-header"} /-->
+
+<!-- wp:group {"tagName":"main","anchor":"main","className":"ta-main","layout":{"type":"default"}} -->
+<main id="main" class="wp-block-group ta-main"><!-- wp:group {"className":"ta-pagehead","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-pagehead"><!-- wp:group {"className":"ta-wrap","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-wrap"><!-- wp:query-title {"type":"archive","level":1,"className":"ta-pagehead__title"} /-->
+
+<!-- wp:term-description /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"ta-section ta-archive","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-section ta-archive"><!-- wp:group {"className":"ta-wrap","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-wrap"><!-- wp:query {"queryId":1,"query":{"perPage":12,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"className":"ta-posts ta-posts--grid"} -->
+<div class="wp-block-query ta-posts ta-posts--grid"><!-- wp:post-template {"className":"ta-posts__list","layout":{"type":"default"}} -->
+<!-- wp:post-featured-image {"aspectRatio":"16/9","sizeSlug":"card","className":"ta-post__img"} /-->
+
+<!-- wp:group {"className":"ta-post__body","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-post__body"><!-- wp:post-title {"level":2,"isLink":true,"className":"ta-post__title"} /-->
+
+<!-- wp:post-excerpt {"moreText":"","excerptLength":24} /--></div>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:query-pagination {"className":"ta-pagination"} -->
+<!-- wp:query-pagination-previous {"label":"Newer posts"} /-->
+
+<!-- wp:query-pagination-numbers /-->
+
+<!-- wp:query-pagination-next {"label":"Older posts"} /-->
+<!-- /wp:query-pagination -->
+
+<!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p>Nothing here yet. Call us or book a repair and we will help you directly.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results --></div>
+<!-- /wp:query --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:pattern {"slug":"top-appliance/cta-form"} /--></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer","className":"ta-site-footer"} /-->

@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/mobile-cta",
+	"title": "Mobile call bar",
+	"category": "top-appliance",
+	"description": "Fixed Call / Book Service bar on small screens.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true,
+		"multiple": false
+	},
+	"render": "file:./render.php"
+}

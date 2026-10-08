@@ -1,0 +1,266 @@
+/* ---------- Hero ---------- */
+.ta-hero {
+	padding-block: clamp(1.5rem, 4vw, 4rem) clamp(2.5rem, 6vw, 5rem);
+	background: #fff;
+}
+.ta-hero__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	align-items: center;
+	gap: 2rem;
+}
+.ta-hero__inner > *,
+.ta-hero__copy > *,
+.ta-hero__media > * {
+	margin: 0;
+}
+.ta-hero__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 1.125rem;
+}
+.ta-hero__title {
+	font-size: var(--wp--preset--font-size--xx-large);
+}
+.ta-hero__lede {
+	max-width: 52ch;
+	color: var(--c-slate);
+	font-size: var(--wp--preset--font-size--medium);
+	line-height: 1.55;
+}
+.ta-hero__ctas {
+	gap: 0.625rem;
+	margin-top: 0.25rem !important;
+}
+.ta-hero__ctas .wp-block-button {
+	flex: 1 1 100%;
+}
+.ta-hero__ctas .wp-block-button__link {
+	width: 100%;
+}
+.ta-hero__proof {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.875rem 1.5rem;
+	margin-top: 0.25rem !important;
+}
+.ta-hero__proof > * {
+	margin: 0;
+}
+.ta-hero__img img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: var(--r-lg);
+	background: var(--c-tint-100);
+}
+
+@media (min-width: 600px) {
+	.ta-hero__ctas .wp-block-button {
+		flex: 0 0 auto;
+	}
+}
+@media (min-width: 900px) {
+	.ta-hero__inner {
+		grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+		gap: clamp(2rem, 4vw, 4rem);
+	}
+	.ta-hero__copy {
+		gap: 1.5rem;
+	}
+}
+
+/* ---------- Warranty seal (logo gear) ---------- */
+.ta-seal {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+.ta-seal__mark {
+	flex: none;
+	display: block;
+	width: var(--seal, 76px);
+	height: var(--seal, 76px);
+}
+.ta-seal__num {
+	fill: var(--c-gear);
+	font-family: var(--display);
+	font-size: 38px;
+	font-stretch: 125%;
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+.ta-seal__unit {
+	fill: var(--c-slate);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+}
+.ta-seal__caption {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.25;
+}
+.ta-seal__caption strong {
+	color: var(--c-gear);
+	font-size: 1.0625rem;
+	font-stretch: 112%;
+	font-weight: 800;
+}
+.ta-seal__caption span {
+	color: var(--c-slate);
+	font-size: 0.9375rem;
+}
+@media (min-width: 900px) {
+	.ta-hero .ta-seal {
+		--seal: 92px;
+	}
+}
+
+/* ---------- Google reviews badge ---------- */
+.ta-greviews {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	min-height: var(--tap);
+	padding: 0.625rem 1.125rem 0.625rem 0.875rem;
+	border: 1px solid var(--c-line);
+	border-radius: var(--r-md);
+	background: #fff;
+	color: var(--c-ink);
+	text-decoration: none;
+	transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s var(--ease-out);
+}
+a.ta-greviews:hover {
+	border-color: var(--c-blue);
+	box-shadow: var(--sh-md);
+	transform: translateY(-1px);
+}
+.ta-greviews__text {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.25;
+}
+.ta-greviews__title {
+	color: var(--c-gear);
+	font-weight: 800;
+	font-stretch: 112%;
+}
+.ta-greviews__meta {
+	display: flex;
+	align-items: center;
+	gap: 0.375rem;
+	color: var(--c-slate);
+	font-size: 0.875rem;
+}
+a.ta-greviews .ta-greviews__cta {
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
+}
+.ta-greviews__score {
+	color: var(--c-ink);
+	font-weight: 700;
+}
+.ta-stars {
+	display: inline-flex;
+	color: var(--c-gear);
+}
+
+/* ---------- Trust bar ---------- */
+.ta-trustband {
+	padding-block: 1.75rem;
+	background: var(--c-navy);
+	color: #fff;
+}
+.ta-trust {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.25rem 1rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.ta-trust__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+}
+.ta-trust__icon {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	background: rgb(255 255 255 / 0.08);
+	color: var(--c-spark);
+}
+.ta-trust__title {
+	display: block;
+	color: #fff;
+	font-size: 1rem;
+	font-stretch: 112%;
+	font-weight: 800;
+	line-height: 1.2;
+}
+.ta-trust__sub {
+	display: block;
+	margin-top: 0.125rem;
+	color: var(--c-mist);
+	font-size: 0.875rem;
+	line-height: 1.35;
+}
+.ta-count {
+	display: inline-block;
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+@media (min-width: 900px) {
+	.ta-trustband {
+		padding-block: 2rem;
+	}
+	.ta-trust {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 1.5rem;
+	}
+	.ta-trust__title {
+		font-size: 1.0625rem;
+	}
+	.ta-trust__item + .ta-trust__item {
+		padding-left: 1.5rem;
+		border-left: 1px solid rgb(126 190 197 / 0.25);
+	}
+}
+
+/* ---------- Mobile call bar ---------- */
+.ta-mobilebar {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 90;
+	display: grid;
+	grid-template-columns: 1fr 1.35fr;
+	gap: 0.5rem;
+	padding: 0.5rem var(--gutter) calc(0.5rem + env(safe-area-inset-bottom));
+	border-top: 1px solid var(--c-line);
+	background: #fff;
+	box-shadow: 0 -8px 24px -12px rgb(1 52 105 / 0.28);
+}
+.ta-mobilebar .ta-btn {
+	min-height: 52px;
+	padding-inline: 1rem;
+}
+@media (max-width: 767px) {
+	body {
+		padding-bottom: calc(68px + env(safe-area-inset-bottom));
+	}
+}
+@media (min-width: 768px) {
+	.ta-mobilebar {
+		display: none;
+	}
+}

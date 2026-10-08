@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/post-links",
+	"title": "Link list",
+	"category": "top-appliance",
+	"description": "Plain list of links to services, areas, brands or appliance error codes.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"source": {
+			"type": "string",
+			"enum": [
+				"service",
+				"service_area",
+				"brand",
+				"appliance"
+			],
+			"default": "service"
+		},
+		"limit": {
+			"type": "integer",
+			"default": 0
+		},
+		"variant": {
+			"type": "string",
+			"enum": [
+				"list",
+				"chips"
+			],
+			"default": "list"
+		},
+		"label": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

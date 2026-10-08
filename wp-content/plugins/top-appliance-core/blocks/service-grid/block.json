@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/service-grid",
+	"title": "Service grid",
+	"category": "top-appliance",
+	"description": "Repair services with icons, from the Services post type.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"limit": {
+			"type": "integer",
+			"default": 0
+		},
+		"showTagline": {
+			"type": "boolean",
+			"default": true
+		},
+		"showAll": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

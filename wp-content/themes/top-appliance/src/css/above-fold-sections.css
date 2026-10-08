@@ -1,0 +1,177 @@
+/* Section frame + services grid: can be inside the first viewport on desktop, so they are critical. */
+/* ---------- Section frame ---------- */
+.ta-section {
+	padding-block: var(--wp--preset--spacing--70);
+}
+.ta-section--tint {
+	background: var(--c-tint-50);
+}
+.ta-section--navy {
+	background: var(--c-navy);
+	color: #fff;
+}
+.ta-section--band {
+	background: var(--g-band);
+	color: #fff;
+}
+:is(.ta-section--navy, .ta-section--band) :is(h2, h3) {
+	color: #fff;
+}
+.ta-section h2 {
+	margin: 0;
+}
+.ta-section__head {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 0.75rem;
+	margin-bottom: clamp(1.75rem, 4vw, 3rem);
+}
+.ta-section__head > * {
+	margin: 0;
+}
+.ta-section__lede {
+	max-width: 56ch;
+	margin: 0;
+	color: var(--c-slate);
+	font-size: var(--wp--preset--font-size--medium);
+	line-height: 1.55;
+}
+:is(.ta-section--navy, .ta-section--band) .ta-section__lede {
+	color: rgb(255 255 255 / 0.85);
+}
+@media (min-width: 900px) {
+	.ta-section__head {
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		align-items: end;
+		gap: 3rem;
+	}
+}
+.ta-more {
+	margin: 1.75rem 0 0;
+}
+.ta-more a {
+	color: var(--c-blue);
+	font-weight: 700;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 0.22em;
+}
+.ta-more a:hover {
+	color: var(--c-gear);
+}
+
+/* ---------- Services: control-panel keys ---------- */
+.ta-services {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.ta-service {
+	display: flex;
+}
+.ta-service__link {
+	position: relative;
+	box-sizing: border-box;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 0.875rem;
+	padding: 1rem;
+	border: 1px solid var(--c-line);
+	border-radius: var(--r-md);
+	background: #fff;
+	color: var(--c-ink);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--ease-out);
+}
+.ta-service__icon {
+	display: grid;
+	place-items: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 14px;
+	background: var(--c-cyan-100);
+	color: var(--c-blue);
+	transition: background-color 0.2s, color 0.2s;
+}
+.ta-service__text {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+.ta-service__name {
+	color: var(--c-gear);
+	font-size: 1rem;
+	font-stretch: 108%;
+	font-weight: 700;
+	line-height: 1.25;
+}
+.ta-service__tagline {
+	display: none;
+	color: var(--c-slate);
+	font-size: 0.875rem;
+	line-height: 1.4;
+}
+.ta-service__led {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--c-line);
+	transition: background-color 0.2s, box-shadow 0.2s;
+}
+.ta-service__link:is(:hover, :focus-visible) {
+	border-color: var(--c-blue);
+	box-shadow: var(--sh-md);
+	transform: translateY(-2px);
+}
+.ta-service__link:is(:hover, :focus-visible) .ta-service__icon {
+	background: var(--c-blue);
+	color: #fff;
+}
+.ta-service__link:is(:hover, :focus-visible) .ta-service__led {
+	background: var(--c-spark);
+	box-shadow: 0 0 0 4px rgb(11 232 247 / 0.22), 0 0 12px rgb(11 232 247 / 0.75);
+}
+.ta-service--all .ta-service__link {
+	border-color: var(--c-blue);
+	background: var(--c-blue);
+}
+.ta-service--all .ta-service__name {
+	color: #fff;
+}
+.ta-service--all .ta-service__tagline {
+	color: rgb(255 255 255 / 0.85);
+}
+.ta-service--all .ta-service__icon {
+	background: rgb(255 255 255 / 0.14);
+	color: #fff;
+}
+.ta-service--all .ta-service__link:is(:hover, :focus-visible) {
+	background: var(--c-gear);
+}
+.ta-service--all .ta-service__link:is(:hover, :focus-visible) .ta-service__icon {
+	background: rgb(255 255 255 / 0.2);
+}
+@media (min-width: 600px) {
+	.ta-services {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	.ta-service__link {
+		padding: 1.25rem;
+	}
+	.ta-service__tagline {
+		display: block;
+	}
+}
+@media (min-width: 1100px) {
+	.ta-services {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+

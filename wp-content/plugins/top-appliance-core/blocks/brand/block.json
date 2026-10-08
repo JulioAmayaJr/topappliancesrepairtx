@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/brand",
+	"title": "Brand logo",
+	"category": "top-appliance",
+	"description": "Logo linking to the home page.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"enum": [
+				"header",
+				"footer"
+			],
+			"default": "header"
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

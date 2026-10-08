@@ -6,4 +6,5 @@ node_modules/
 /backups/*.sql.gz
 /test-results/
 /lighthouse/*.html
+/lighthouse/*.json
 *.log

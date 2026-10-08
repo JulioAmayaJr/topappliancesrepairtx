@@ -1,0 +1,109 @@
+/*
+ * Buttons. Red is reserved for calling, blue for booking — on every page.
+ * Works for plugin markup (a.ta-btn--x) and core Button blocks (.ta-btn--x > .wp-block-button__link).
+ */
+.wp-block-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+.wp-block-buttons > .wp-block-button {
+	margin: 0;
+}
+
+.ta-btn,
+.wp-block-button .wp-block-button__link {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: var(--tap);
+	padding: 0.75rem 1.375rem;
+	border: 2px solid transparent;
+	border-radius: var(--r-pill);
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: 700;
+	font-stretch: 108%;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.18s var(--ease-out);
+}
+.ta-btn:hover,
+.wp-block-button .wp-block-button__link:hover {
+	transform: translateY(-1px);
+	box-shadow: var(--sh-md);
+}
+.ta-btn:active,
+.wp-block-button .wp-block-button__link:active {
+	transform: translateY(0);
+	box-shadow: none;
+}
+
+:is(a.ta-btn--call, .ta-btn--call > .wp-block-button__link) {
+	background: var(--c-red);
+	color: #fff;
+}
+:is(a.ta-btn--call, .ta-btn--call > .wp-block-button__link):is(:hover, :focus-visible) {
+	background: var(--c-red-700);
+	color: #fff;
+}
+
+:is(a.ta-btn--book, .ta-btn--blue, .ta-btn--book > .wp-block-button__link) {
+	background: var(--c-blue);
+	color: #fff;
+}
+:is(a.ta-btn--book, .ta-btn--blue, .ta-btn--book > .wp-block-button__link):is(:hover, :focus-visible) {
+	background: var(--c-gear);
+	color: #fff;
+}
+
+:is(a.ta-btn--outline, .ta-btn--outline > .wp-block-button__link) {
+	background: transparent;
+	border-color: currentColor;
+	color: var(--c-blue);
+}
+:is(a.ta-btn--outline, .ta-btn--outline > .wp-block-button__link):is(:hover, :focus-visible) {
+	background: var(--c-blue);
+	border-color: var(--c-blue);
+	color: #fff;
+}
+
+:is(a.ta-btn--light, .ta-btn--light > .wp-block-button__link) {
+	background: #fff;
+	color: var(--c-gear);
+}
+:is(a.ta-btn--light, .ta-btn--light > .wp-block-button__link):is(:hover, :focus-visible) {
+	background: var(--c-tint-100);
+	color: var(--c-gear);
+}
+
+.ta-btn--lg > .wp-block-button__link {
+	min-height: 56px;
+	padding-inline: 1.75rem;
+	font-size: 1.0625rem;
+}
+
+/* Icons for core buttons (plugin buttons print inline SVG). */
+:is(.ta-btn--call, .ta-btn--book) > .wp-block-button__link::before {
+	content: "";
+	flex: none;
+	width: 1.2em;
+	height: 1.2em;
+	background-color: currentColor;
+	-webkit-mask: var(--i) center / contain no-repeat;
+	mask: var(--i) center / contain no-repeat;
+}
+.ta-btn--call {
+	--i: var(--i-phone);
+}
+.ta-btn--book {
+	--i: var(--i-calendar);
+}
+.ta-btn svg {
+	width: 1.2em;
+	height: 1.2em;
+}

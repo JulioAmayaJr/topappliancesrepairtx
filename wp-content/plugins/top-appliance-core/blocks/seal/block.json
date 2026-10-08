@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/seal",
+	"title": "Warranty seal",
+	"category": "top-appliance",
+	"description": "Gear-shaped warranty seal.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"size": {
+			"type": "integer",
+			"default": 112
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

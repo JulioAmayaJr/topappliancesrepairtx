@@ -43,6 +43,7 @@ services:
       - ./wp-content/themes/top-appliance:/var/www/html/wp-content/themes/top-appliance
       - ./wp-content/plugins/top-appliance-core:/var/www/html/wp-content/plugins/top-appliance-core
       - ./docker/php.ini:/usr/local/etc/php/conf.d/zz-top.ini:ro
+      - ./docker/apache-cache.conf:/etc/apache2/conf-enabled/zz-cache.conf:ro
 
   wpcli:
     image: wordpress:cli-php8.3

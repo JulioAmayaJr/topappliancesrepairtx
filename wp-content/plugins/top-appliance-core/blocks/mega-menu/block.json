@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/mega-menu",
+	"title": "Mega menu",
+	"category": "top-appliance",
+	"description": "Main navigation with mega panels and the mobile menu.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

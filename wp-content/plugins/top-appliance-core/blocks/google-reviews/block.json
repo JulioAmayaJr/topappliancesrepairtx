@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/google-reviews",
+	"title": "Google reviews",
+	"category": "top-appliance",
+	"description": "Google reviews badge or widget slot. Shows rating only when it is set in Business Info.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"enum": [
+				"badge",
+				"panel"
+			],
+			"default": "badge"
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

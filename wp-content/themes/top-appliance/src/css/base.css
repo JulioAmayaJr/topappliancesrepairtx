@@ -1,0 +1,109 @@
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: clip;
+}
+img,
+svg {
+	max-width: 100%;
+}
+img {
+	height: auto;
+}
+figure {
+	margin: 0;
+}
+h1,
+h2,
+.ta-display {
+	font-stretch: 125%;
+	text-wrap: balance;
+}
+h3,
+h4 {
+	font-stretch: 112%;
+	text-wrap: balance;
+}
+p {
+	text-wrap: pretty;
+}
+
+/* Layout chrome: no block gaps between the site-level regions or between page sections. */
+.wp-site-blocks > *,
+.ta-main > *,
+.ta-content--sections > * {
+	margin-block: 0;
+}
+.ta-wrap {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: calc(var(--wrap) + 2 * var(--gutter));
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+/* Focus: always visible, brand-colored, AA on light and dark. */
+:focus-visible {
+	outline: 3px solid var(--c-cyan-700);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+:is(.ta-topbar, .ta-trustband, .ta-section--navy, .ta-section--band, .ta-footer, .ta-codes) :focus-visible {
+	outline-color: var(--c-spark);
+}
+
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important;
+}
+.skip-link:focus {
+	clip: auto;
+	clip-path: none;
+	width: auto;
+	height: auto;
+	margin: 0;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 1000;
+	padding: 0.875rem 1.25rem;
+	background: #fff;
+	color: var(--c-gear);
+	font-weight: 700;
+	border-radius: var(--r-md);
+	box-shadow: var(--sh-lg);
+	text-decoration: none;
+}
+
+.ta-icon {
+	flex: none;
+	display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

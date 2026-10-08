@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/phone-link",
+	"title": "Phone link",
+	"category": "top-appliance",
+	"description": "The business phone as a link.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"prefix": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

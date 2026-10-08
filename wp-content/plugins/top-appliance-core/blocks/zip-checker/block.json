@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/zip-checker",
+	"title": "ZIP checker",
+	"category": "top-appliance",
+	"description": "Tells visitors whether their ZIP code is in the service area.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": "Check your ZIP code"
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

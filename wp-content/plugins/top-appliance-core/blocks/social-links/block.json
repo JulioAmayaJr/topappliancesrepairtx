@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/social-links",
+	"title": "Social links",
+	"category": "top-appliance",
+	"description": "Social profiles from Business Info.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

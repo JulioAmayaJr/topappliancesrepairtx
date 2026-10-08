@@ -1,0 +1,14 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/booking-form",
+	"title": "Booking form",
+	"category": "top-appliance",
+	"description": "The Fluent Forms booking form (name, phone, ZIP, appliance, brand, problem). Works in posts, pages and templates.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"formId": { "type": "integer", "default": 0 }
+	},
+	"supports": { "html": false, "className": true, "multiple": false },
+	"render": "file:./render.php"
+}

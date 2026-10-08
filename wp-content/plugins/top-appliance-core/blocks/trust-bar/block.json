@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/trust-bar",
+	"title": "Trust bar",
+	"category": "top-appliance",
+	"description": "Same-day, warranty, experience and free-estimate highlights.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

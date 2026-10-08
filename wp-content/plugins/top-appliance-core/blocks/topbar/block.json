@@ -1,0 +1,16 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/topbar",
+	"title": "Top bar",
+	"category": "top-appliance",
+	"description": "Hours, phone and social links above the header.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/business-info",
+	"title": "Business info",
+	"category": "top-appliance",
+	"description": "Address, phone, email and/or opening hours.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"enum": [
+				"nap",
+				"hours",
+				"nap-hours"
+			],
+			"default": "nap-hours"
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

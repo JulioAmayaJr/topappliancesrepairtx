@@ -56,6 +56,7 @@ if wp plugin is-active top-appliance-core >/dev/null 2>&1; then
   if [ "${1:-}" != "--no-seed" ]; then
     wp eval-file /project/bin/seed.php
   fi
+  wp rank-math sitemap generate >/dev/null 2>&1 || true
 fi
 
 wp rewrite flush --hard

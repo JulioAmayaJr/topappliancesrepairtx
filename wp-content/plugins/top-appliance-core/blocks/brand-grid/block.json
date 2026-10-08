@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/brand-grid",
+	"title": "Brand wall",
+	"category": "top-appliance",
+	"description": "Brands we service, from the Brands post type.",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"featuredOnly": {
+			"type": "boolean",
+			"default": true
+		},
+		"limit": {
+			"type": "integer",
+			"default": 0
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true,
+		"customClassName": true
+	},
+	"render": "file:./render.php"
+}

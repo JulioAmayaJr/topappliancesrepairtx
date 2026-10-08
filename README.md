@@ -37,8 +37,13 @@ bin/setup.sh                  # install WP, plugins, configure, seed content
 | Watch assets | `npm run dev` |
 | Build assets (minified) | `npm run build` |
 | Screenshots 390px/1440px | `npm run shots` → `docs/screenshots/` |
-| Lighthouse mobile + desktop | `npm run lighthouse` → `lighthouse/` |
+| Lighthouse mobile + desktop | `npm run lighthouse` → `lighthouse/` (Node 20+; uses Playwright's Chrome for Testing) |
 | Validate JSON-LD | `npm run jsonld` |
+
+First time only for the checks: `npx playwright install chromium`.
+
+Other helpers: `scripts/placeholders.py` regenerates the labelled photo placeholders (Pillow),
+`scripts/font-subset.sh` rebuilds the self-hosted Archivo subset (fonttools).
 
 ## Export
 
@@ -63,10 +68,12 @@ bin/import.sh backups/db-XXXX.sql.gz --from-url https://staging.example.com
    (`wp db import`, untar into `wp-content/`).
 5. Install/activate Rank Math, Fluent Forms, FluentSMTP. In FluentSMTP, replace the Mailpit connection
    with the real SMTP/API provider.
-6. Settings → Permalinks → Save (flushes rewrites). Check Settings → Reading → "Search engine visibility" is **off**.
-7. Add the 301 redirects listed in `docs/url-inventory.csv` (`action = 301`) in Rank Math → Redirections.
-8. Fill **Business Info** (Settings → Business Info): Google reviews URL/embed, verified geo coordinates.
-9. Submit `https://<domain>/sitemap_index.xml` in Google Search Console.
+6. Send long cache headers for `/wp-content/themes/top-appliance/assets/*` and `/wp-content/uploads/*`
+   (see `docker/apache-cache.conf`).
+7. Settings → Permalinks → Save (flushes rewrites). Check Settings → Reading → "Search engine visibility" is **off**.
+8. Add the 301 redirects listed in `docs/url-inventory.csv` (`action = 301`) in Rank Math → Redirections.
+9. Fill **Business Info** (Settings → Business Info): Google reviews URL/embed, verified geo coordinates.
+10. Submit `https://<domain>/sitemap_index.xml` in Google Search Console.
 
 ## Where business data lives
 
@@ -81,7 +88,7 @@ the ZIP checker and the JSON-LD schema. In the block editor, core blocks read th
 docker-compose.yml   .env.example   package.json   scripts/ (esbuild, screenshots, lighthouse, json-ld check)
 bin/                 setup.sh, configure.php, seed.php, export.sh, import.sh, wp
 seed/                placeholder images used by seed.php
-docs/                brand.md, url-inventory.csv, seo-checklist.md, screenshots/, research/
+docs/                brand.md, url-inventory.csv, seo-checklist.md (Lighthouse results + placeholders), screenshots/, research/
 wp-content/themes/top-appliance/     theme.json, templates/, parts/, patterns/, src/ → assets/
 wp-content/plugins/top-appliance-core/  CPTs, settings, schema, blocks/
 ```

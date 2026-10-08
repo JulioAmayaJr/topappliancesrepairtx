@@ -1,0 +1,70 @@
+/* Short aliases for the theme.json presets (docs/brand.md). */
+:root {
+	--c-gear: var(--wp--preset--color--gear-deep);
+	--c-blue: var(--wp--preset--color--brand-blue);
+	--c-navy: var(--wp--preset--color--navy);
+	--c-navy-900: var(--wp--preset--color--navy-900);
+	--c-cyan: var(--wp--preset--color--cyan);
+	--c-cyan-700: var(--wp--preset--color--cyan-700);
+	--c-cyan-100: var(--wp--preset--color--cyan-100);
+	--c-spark: var(--wp--preset--color--spark);
+	--c-mist: var(--wp--preset--color--mist);
+	--c-red: var(--wp--preset--color--red-600);
+	--c-red-700: var(--wp--preset--color--red-700);
+	--c-ink: var(--wp--preset--color--ink);
+	--c-slate: var(--wp--preset--color--slate);
+	--c-tint-50: var(--wp--preset--color--tint-50);
+	--c-tint-100: var(--wp--preset--color--tint-100);
+	--c-line: var(--wp--preset--color--line);
+	--g-gear: var(--wp--preset--gradient--gear);
+	--g-band: var(--wp--preset--gradient--band);
+
+	--r-sm: var(--wp--custom--radius--sm, 6px);
+	--r-md: var(--wp--custom--radius--md, 12px);
+	--r-lg: var(--wp--custom--radius--lg, 20px);
+	--r-pill: 999px;
+	--sh-sm: var(--wp--preset--shadow--sm);
+	--sh-md: var(--wp--preset--shadow--md);
+	--sh-lg: var(--wp--preset--shadow--lg);
+
+	--display: var(--wp--preset--font-family--archivo-display);
+	--wrap: 1240px;
+	--gutter: clamp(1rem, 4vw, 2rem);
+	--tap: 48px;
+	--topbar-h: 40px;
+	--header-h: 64px;
+	--ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+
+	/* Icons used through CSS masks (stroke drawn in black; color comes from background-color). */
+	--i-phone: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16.4v2.9a1.9 1.9 0 0 1-2.1 1.9 18.8 18.8 0 0 1-8.2-2.9 18.5 18.5 0 0 1-5.7-5.7A18.8 18.8 0 0 1 2.1 4.4 1.9 1.9 0 0 1 4 2.3h2.9a1.9 1.9 0 0 1 1.9 1.6c.1.9.4 1.8.7 2.7a1.9 1.9 0 0 1-.4 2L7.8 9.8a15.2 15.2 0 0 0 5.7 5.7l1.2-1.2a1.9 1.9 0 0 1 2-.4c.9.3 1.8.6 2.7.7a1.9 1.9 0 0 1 1.6 1.8z'/%3E%3C/svg%3E");
+	--i-calendar: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3.5' y='4.5' width='17' height='16' rx='2.5'/%3E%3Cpath d='M3.5 9.5h17M8 2.5v4M16 2.5v4M8.75 14.75l2 2 4.5-4.5'/%3E%3C/svg%3E");
+	--i-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+	--i-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.25' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E");
+	--i-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23054E99' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	--i-quote: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 36'%3E%3Cpath d='M0 36V22.4C0 9.6 6.2 2.1 18.6 0l1.9 4.9C14 6.8 10.8 10.6 10.4 16.4H19V36zm24 0V22.4C24 9.6 30.2 2.1 42.6 0l1.4 4.9c-6.5 1.9-9.7 5.7-10.1 11.5H43V36z'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 1100px) {
+	:root {
+		--header-h: 76px;
+	}
+}
+
+/* Metric-matched fallbacks so the swap to Archivo does not shift layout (docs/brand.md §4). */
+@font-face {
+	font-family: "Archivo Fallback";
+	src: local("Arial"), local("ArialMT"), local("Helvetica"), local("Roboto");
+	size-adjust: 98.4%;
+	ascent-override: 89.3%;
+	descent-override: 21.3%;
+	line-gap-override: 0%;
+}
+@font-face {
+	font-family: "Archivo Display Fallback";
+	src: local("Arial Bold"), local("Arial-BoldMT"), local("Helvetica Bold"), local("Roboto Bold"), local("Arial");
+	font-weight: 800;
+	size-adjust: 128.3%;
+	ascent-override: 68.4%;
+	descent-override: 16.4%;
+	line-gap-override: 0%;
+}

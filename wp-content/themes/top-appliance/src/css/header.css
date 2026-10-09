@@ -277,45 +277,49 @@ body.admin-bar .ta-site-header {
 	transform: rotate(180deg);
 }
 
+/* Closed panels are display:none, so their lazy images (brand logos) never load until opened. */
 .ta-mega {
 	position: absolute;
 	top: 100%;
 	right: 0;
 	left: 0;
-	visibility: hidden;
+	display: none;
 	opacity: 0;
 	transform: translateY(-6px);
-	pointer-events: none;
 	background: #fff;
 	border-top: 1px solid var(--c-line);
 	box-shadow: var(--sh-lg);
-	transition: opacity 0.18s, transform 0.18s var(--ease-out), visibility 0s linear 0.18s;
+	transition: opacity 0.18s, transform 0.18s var(--ease-out), display 0.18s allow-discrete;
 }
 .ta-nav__item--panel:hover > .ta-mega,
 .ta-nav__item--panel.is-open > .ta-mega,
 html:not(.js) .ta-nav__item--panel:focus-within > .ta-mega {
-	visibility: visible;
+	display: block;
 	opacity: 1;
 	transform: none;
-	pointer-events: auto;
-	transition-delay: 0s;
+}
+@starting-style {
+	.ta-nav__item--panel:hover > .ta-mega,
+	.ta-nav__item--panel.is-open > .ta-mega,
+	html:not(.js) .ta-nav__item--panel:focus-within > .ta-mega {
+		opacity: 0;
+		transform: translateY(-6px);
+	}
 }
 .ta-nav__item--panel:hover > .ta-mega {
 	transition-delay: 0.06s;
 }
 .ta-nav__item--panel.is-suppressed > .ta-mega {
-	visibility: hidden;
-	opacity: 0;
-	pointer-events: none;
+	display: none;
 }
 .ta-mega__inner {
 	box-sizing: border-box;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) 300px;
-	gap: 2rem;
+	gap: 1.5rem;
 	max-width: calc(var(--wrap) + 2 * var(--gutter));
 	margin-inline: auto;
-	padding: 1.75rem var(--gutter) 2rem;
+	padding: 1.125rem var(--gutter) 1.25rem;
 }
 .ta-mega__list {
 	display: grid;
@@ -356,7 +360,7 @@ html:not(.js) .ta-nav__item--panel:focus-within > .ta-mega {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
-	padding: 1.5rem;
+	padding: 1.125rem 1.25rem;
 	border-radius: var(--r-lg);
 	background: var(--c-tint-50);
 }
@@ -373,11 +377,61 @@ html:not(.js) .ta-nav__item--panel:focus-within > .ta-mega {
 .ta-mega__all {
 	align-self: flex-start;
 	margin-top: auto;
-	padding-top: 1rem;
+	padding-top: 0.5rem;
 	color: var(--c-blue);
 	font-weight: 700;
 	text-underline-offset: 0.2em;
 	text-decoration-thickness: 2px;
+}
+
+/* Brand logo cards (desktop panel + mobile drawer). */
+.ta-mega__list--logos {
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+.ta-mlogo {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	min-height: var(--tap);
+	padding: 0.5rem 0.375rem 0.4375rem;
+	border: 1px solid var(--c-line);
+	border-radius: var(--r-md);
+	background: #fff;
+	color: var(--c-slate);
+	text-decoration: none;
+	transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s var(--ease-out), color 0.15s;
+}
+.ta-mega__list .ta-mlogo {
+	padding: 0.5rem 0.375rem 0.4375rem;
+}
+.ta-mlogo__img {
+	display: block;
+	width: auto;
+	height: 34px;
+	max-width: 100%;
+	object-fit: contain;
+}
+.ta-mlogo__name {
+	color: var(--c-slate);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	line-height: 1.2;
+	text-align: center;
+	transition: color 0.15s;
+}
+.ta-mega__list a.ta-mlogo:hover,
+.ta-mlogo:is(:hover, :focus-visible) {
+	border-color: var(--c-blue);
+	background: #fff;
+	box-shadow: var(--sh-md);
+	transform: translateY(-1px);
+}
+.ta-mlogo:is(:hover, :focus-visible) .ta-mlogo__name {
+	color: var(--c-blue);
 }
 
 /* ---------- Mobile drawer (Popover API: opens without JS) ---------- */
@@ -474,6 +528,17 @@ html:not(.js) .ta-nav__item--panel:focus-within > .ta-mega {
 	min-height: 44px;
 	color: var(--c-ink);
 	text-decoration: none;
+}
+.ta-drawer__group ul.ta-drawer__logos {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+.ta-drawer__logos .ta-mlogo__img {
+	height: 28px;
+}
+.ta-drawer__group .ta-drawer__logos a.ta-mlogo {
+	min-height: 0;
+	color: var(--c-slate);
 }
 .ta-drawer__group li:has(.ta-drawer__all) {
 	grid-column: 1 / -1;

@@ -18,18 +18,21 @@ $sections = array(
 		'label' => 'Services',
 		'all'   => array( get_post_type_archive_link( 'service' ), 'All repair services' ),
 		'items' => array_map( fn( $s ) => array( $s['url'], $s['short'] . ' repair', $s['icon'] ), $services ),
+		'logos' => false,
 		'aside' => array( 'Same-day appointments', sprintf( 'Free estimate and a %s on parts and labor.', top_warranty_label() ) ),
 	),
 	'brands'    => array(
 		'label' => 'Brands',
 		'all'   => array( get_post_type_archive_link( 'brand' ), 'All brands we service' ),
-		'items' => array_map( fn( $b ) => array( $b['url'], $b['title'], '' ), $brands ),
+		'items' => array_map( fn( $b ) => array( $b['url'], $b['title'], '', $b['logo'] ?? 0 ), $brands ),
+		'logos' => true,
 		'aside' => array( 'Every major brand', 'From everyday Whirlpool and GE to built-in Sub-Zero and Thermador.' ),
 	),
 	'areas'     => array(
 		'label' => 'Service Areas',
 		'all'   => array( get_post_type_archive_link( 'service_area' ), 'All service areas' ),
 		'items' => array_map( fn( $a ) => array( $a['url'], $a['title'], '' ), $areas ),
+		'logos' => false,
 		'aside' => array( 'Greater Houston', 'Technicians dispatched across Houston and the suburbs.' ),
 	),
 	'resources' => array(
@@ -39,9 +42,15 @@ $sections = array(
 			array_map( fn( $t ) => array( $t['url'], $t['title'] . ' error codes', 'error-code' ), $apps ),
 			array( array( get_permalink( get_option( 'page_for_posts' ) ) ?: home_url( '/blog/' ), 'Repair tips blog', 'book' ) )
 		),
+		'logos' => false,
 		'aside' => array( 'Before you call', 'Look up what a display code means and read our repair tips.' ),
 	),
 );
+/** Brand card: lazy logo (alt="" — the visible name is inside the same link) + name. */
+$brand_card = function ( array $item ): string {
+	$img = $item[3] ? wp_get_attachment_image( (int) $item[3], 'full', false, array( 'alt' => '', 'loading' => 'lazy', 'decoding' => 'async', 'class' => 'ta-mlogo__img', 'sizes' => '96px' ) ) : '';
+	return sprintf( '<a class="ta-mlogo" href="%s">%s<span class="ta-mlogo__name">%s</span></a>', esc_url( $item[0] ), $img, esc_html( $item[1] ) );
+};
 $links = array(
 	array( home_url( '/about/' ), 'About' ),
 	array( home_url( '/contact/' ), 'Contact' ),
@@ -57,9 +66,13 @@ $links = array(
 					</button>
 					<div class="ta-mega ta-mega--<?php echo esc_attr( $id ); ?>" id="ta-panel-<?php echo esc_attr( $id ); ?>">
 						<div class="ta-mega__inner">
-							<ul class="ta-mega__list<?php echo 'services' === $id || 'resources' === $id ? ' ta-mega__list--icons' : ''; ?>">
+							<ul class="ta-mega__list<?php echo 'services' === $id || 'resources' === $id ? ' ta-mega__list--icons' : ''; ?><?php echo $sec['logos'] ? ' ta-mega__list--logos' : ''; ?>">
 								<?php foreach ( $sec['items'] as $item ) : ?>
-									<li><a href="<?php echo esc_url( $item[0] ); ?>"><?php echo $item[2] ? top_icon( $item[2], '', 22 ) : ''; ?><span><?php echo esc_html( $item[1] ); ?></span></a></li>
+									<?php if ( $sec['logos'] ) : ?>
+										<li><?php echo $brand_card( $item ); // phpcs:ignore ?></li>
+									<?php else : ?>
+										<li><a href="<?php echo esc_url( $item[0] ); ?>"><?php echo $item[2] ? top_icon( $item[2], '', 22 ) : ''; ?><span><?php echo esc_html( $item[1] ); ?></span></a></li>
+									<?php endif; ?>
 								<?php endforeach; ?>
 							</ul>
 							<div class="ta-mega__aside">
@@ -95,9 +108,9 @@ $links = array(
 			<?php foreach ( $sections as $id => $sec ) : ?>
 				<details class="ta-drawer__group">
 					<summary><?php echo esc_html( $sec['label'] ); ?><?php echo top_icon( 'chevron-down', '', 18 ); ?></summary>
-					<ul>
+					<ul<?php echo $sec['logos'] ? ' class="ta-drawer__logos"' : ''; ?>>
 						<?php foreach ( $sec['items'] as $item ) : ?>
-							<li><a href="<?php echo esc_url( $item[0] ); ?>"><?php echo esc_html( $item[1] ); ?></a></li>
+							<li><?php echo $sec['logos'] ? $brand_card( $item ) : '<a href="' . esc_url( $item[0] ) . '">' . esc_html( $item[1] ) . '</a>'; // phpcs:ignore ?></li>
 						<?php endforeach; ?>
 						<?php if ( $sec['all'][0] ) : ?>
 							<li><a class="ta-drawer__all" href="<?php echo esc_url( $sec['all'][0] ); ?>"><?php echo esc_html( $sec['all'][1] ); ?></a></li>

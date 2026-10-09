@@ -209,6 +209,7 @@ function top_nav_data(): array {
 					$item['tagline'] = get_post_meta( $p->ID, 'top_tagline', true );
 				} elseif ( 'brand' === $pt ) {
 					$item['featured'] = (bool) get_post_meta( $p->ID, 'top_featured', true );
+					$item['logo']     = (int) get_post_meta( $p->ID, 'top_logo_id', true );
 					$item['premium']  = (bool) get_post_meta( $p->ID, 'top_premium', true );
 				} else {
 					$item['zips'] = array_filter( array_map( 'trim', explode( ',', (string) get_post_meta( $p->ID, 'top_zips', true ) ) ) );

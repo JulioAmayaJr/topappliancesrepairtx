@@ -10,7 +10,11 @@
 <!-- wp:group {"tagName":"section","anchor":"service-areas","className":"ta-section ta-section--tint ta-areas","layout":{"type":"default"}} -->
 <section id="service-areas" class="wp-block-group ta-section ta-section--tint ta-areas"><!-- wp:group {"className":"ta-areas__inner ta-wrap","layout":{"type":"default"}} -->
 <div class="wp-block-group ta-areas__inner ta-wrap"><!-- wp:group {"className":"ta-areas__copy","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-areas__copy"><!-- wp:heading -->
+<div class="wp-block-group ta-areas__copy"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">Service areas</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">Serving Houston and nearby cities</h2>
 <!-- /wp:heading -->
 

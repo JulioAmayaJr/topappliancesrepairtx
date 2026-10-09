@@ -44,6 +44,13 @@ $logo_full  = top_seed_media( $brand_dir . 'logo-desktop.png', 'logo-full', 'Top
 $logo_light = top_seed_media( $brand_dir . 'footer-logo.png', 'logo-light', 'Top Appliances Repair logo (white)', 'Top Appliances Repair logo' );
 update_option( 'site_icon', $logo_mark );
 
+/* Remove the old labelled placeholders (replaced by text-free brand images). */
+foreach ( array( 'hero', 'why', 'blog-washer-not-draining', 'blog-dishwasher-not-cleaning', 'blog-refrigerator-not-cooling', 'blog-types-of-stoves', 'blog-smelly-garbage-disposal', 'blog-how-long-refrigerators-last', 'blog-refrigerator-leak', 'blog-refrigerator-compressor', 'blog-speed-queen-washer' ) as $old_key ) {
+	foreach ( get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_top_seed_key', 'meta_value' => $old_key, 'fields' => 'ids', 'numberposts' => -1 ) ) as $old_id ) {
+		wp_delete_attachment( $old_id, true );
+	}
+}
+
 /* Section photos (placeholders until the client sends real photos) → `top_media` slots used by patterns. */
 $img = '/project/seed/images/';
 update_option(
@@ -51,8 +58,8 @@ update_option(
 	array_merge(
 		(array) get_option( 'top_media', array() ),
 		array(
-			'hero' => top_seed_media( $img . 'hero-technician.webp', 'hero', 'Technician repairing an appliance (placeholder)', 'Top Appliances Repair technician repairing a refrigerator in a Houston home' ),
-			'why'  => top_seed_media( $img . 'why-technician.webp', 'why', 'Technician portrait (placeholder)', 'Top Appliances Repair technician with tools, ready for a service call' ),
+			'hero' => top_seed_media( $img . 'brand-4x3.webp', 'brand-4x3', 'Top Appliances Repair brand image (replace with a technician photo)', 'Top Appliances Repair' ),
+			'why'  => top_seed_media( $img . 'brand-4x5.webp', 'brand-4x5', 'Top Appliances Repair brand image (replace with a technician portrait)', 'Top Appliances Repair' ),
 		)
 	)
 );
@@ -108,6 +115,13 @@ update_option(
 			'google_reviews_url'  => 'https://maps.google.com/?cid=7779343947408438677',
 			'google_rating'       => '',
 			'google_review_count' => '',
+			// The real review published on the current site (always shown first).
+			'review_pinned'       => array(
+				'name'   => 'Linda L',
+				'rating' => 5,
+				'date'   => '',
+				'text'   => 'Cannot say enough nice things about this company. The professionalism and dedication to customer service with something you don’t see very often. They were wonderful! Will recommend them to all of my friends and family.',
+			),
 			'booking_url'         => '/contact/#book',
 			'map_embed_url'       => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d443150.1792414071!2d-95.4665328!3d29.8033439!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6bf5c81a7add7595!2sTop%20Appliances%20Repair%20Corporation!5e0!3m2!1sen!2s!4v1604068549916!5m2!1sen!2s',
 			'map_link_url'        => 'https://maps.google.com/?cid=7779343947408438677',

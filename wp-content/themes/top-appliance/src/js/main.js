@@ -5,12 +5,16 @@
 import { initNav } from './nav.js';
 import { initZip } from './zip.js';
 import { initMap } from './map.js';
+import { initCarousels } from './carousel.js';
+import { initFooter } from './footer.js';
 
 document.documentElement.classList.add('js');
 
 initNav();
 initZip();
 initMap();
+initCarousels();
+initFooter();
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 if (!reduce.matches) {

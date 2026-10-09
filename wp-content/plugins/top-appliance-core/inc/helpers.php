@@ -40,6 +40,8 @@ function top_biz_fields(): array {
 		'google_rating'        => '',
 		'google_review_count'  => '',
 		'google_reviews_embed' => '',
+		'review_pinned'        => array(),
+		'reviews'              => array(),
 		'booking_url'          => '',
 		'map_embed_url'        => '',
 		'map_link_url'         => '',
@@ -259,4 +261,73 @@ function top_hours_sentence(): string {
 	}
 	$closed = array_column( array_filter( top_hours_groups(), fn( $g ) => 'Closed' === $g['text'] ), 'long' );
 	return sprintf( 'We are open %s.%s', $open, $closed ? ' Closed ' . implode( ' and ', $closed ) . '.' : '' );
+}
+
+/**
+ * Reviews for the reviews widget, normalised:
+ * ['reviews'=>[ ['name','rating','date','text','source'] ], 'rating'=>?float, 'count'=>?int, 'url'=>string, 'preview'=>bool]
+ *
+ * Data source: Business Info (pinned review + list). To connect Google Places API later, hook
+ * `top_reviews_source` and return the same shape (cache the API response in a transient); the
+ * widget markup does not change.
+ *
+ * Preview: with no real reviews besides the pinned one, five clearly-labelled sample reviews are added
+ * ONLY on local/development environments or for logged-in admins. They never reach production
+ * visitors and never enter the JSON-LD (the schema does not output reviews at all).
+ */
+function top_reviews_data(): array {
+	$data = array(
+		'reviews' => array(),
+		'rating'  => top_biz( 'google_rating' ) ? (float) top_biz( 'google_rating' ) : null,
+		'count'   => top_biz( 'google_review_count' ) ? (int) top_biz( 'google_review_count' ) : null,
+		'url'     => (string) top_biz( 'google_reviews_url' ),
+		'preview' => false,
+	);
+	$pinned = top_biz( 'review_pinned', array() );
+	if ( ! empty( $pinned['name'] ) && ! empty( $pinned['text'] ) ) {
+		$data['reviews'][] = $pinned + array( 'source' => 'site' );
+	}
+	foreach ( (array) top_biz( 'reviews', array() ) as $r ) {
+		if ( ! empty( $r['name'] ) && ! empty( $r['text'] ) ) {
+			$data['reviews'][] = $r + array( 'source' => 'google' );
+		}
+	}
+	$data = apply_filters( 'top_reviews_source', $data );
+
+	$real_beyond_pinned = count( $data['reviews'] ) - ( empty( $pinned['name'] ) ? 0 : 1 );
+	$can_preview        = (bool) apply_filters( 'top_reviews_can_preview', in_array( wp_get_environment_type(), array( 'local', 'development' ), true ) || current_user_can( 'manage_options' ) );
+	if ( $real_beyond_pinned < 1 && $can_preview ) {
+		$data['preview'] = true;
+		foreach ( top_sample_reviews() as $sample ) {
+			$data['reviews'][] = $sample + array( 'source' => 'sample' );
+		}
+	}
+	return $data;
+}
+
+/** Generic sample reviews for the local preview only. */
+function top_sample_reviews(): array {
+	$texts = array(
+		'The technician arrived on the scheduled day, explained what was wrong and gave us the price before starting. Everything works again.',
+		'Quick to answer the phone and easy to book. The repair was done in one visit and the technician cleaned up afterwards.',
+		'Clear communication from start to finish. We knew what the repair would cost before any work began, and there were no surprises.',
+		'Friendly, on time and professional. Our appliance has been running without problems since the visit. Would call them again.',
+		'They explained the options honestly, including when a repair made sense and when it did not. Good experience overall.',
+	);
+	$out = array();
+	foreach ( $texts as $i => $text ) {
+		$out[] = array(
+			'name'   => 'Customer ' . chr( 65 + $i ),
+			'rating' => 5,
+			'date'   => wp_date( 'Y-m-d', strtotime( '-' . ( 9 + $i * 17 ) . ' days' ) ),
+			'text'   => $text,
+		);
+	}
+	return $out;
+}
+
+/** "3 weeks ago" from Y-m-d, or '' when unknown. */
+function top_relative_date( string $ymd ): string {
+	$ts = $ymd ? strtotime( $ymd . ' 12:00:00' ) : 0;
+	return $ts ? sprintf( '%s ago', human_time_diff( $ts, time() ) ) : '';
 }

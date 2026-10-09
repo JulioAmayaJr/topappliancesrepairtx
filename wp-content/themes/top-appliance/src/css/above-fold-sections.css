@@ -23,28 +23,40 @@
 .ta-section__head {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: 0.75rem;
-	margin-bottom: clamp(1.75rem, 4vw, 3rem);
+	gap: 0.5rem;
+	margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
 .ta-section__head > * {
 	margin: 0;
 }
 .ta-section__lede {
-	max-width: 56ch;
+	max-width: 60ch;
 	margin: 0;
 	color: var(--c-slate);
-	font-size: var(--wp--preset--font-size--medium);
-	line-height: 1.55;
+	font-size: var(--wp--preset--font-size--large);
+	line-height: 1.6;
 }
 :is(.ta-section--navy, .ta-section--band) .ta-section__lede {
 	color: rgb(255 255 255 / 0.85);
 }
-@media (min-width: 900px) {
-	.ta-section__head {
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-		align-items: end;
-		gap: 3rem;
-	}
+.ta-section__head--center {
+	justify-items: center;
+	text-align: center;
+}
+.ta-section__head--center .ta-section__lede {
+	margin-inline: auto;
+}
+.ta-eyebrow {
+	margin: 0 0 -0.125rem !important;
+	color: var(--c-cyan-700);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	line-height: 1.3;
+	text-transform: uppercase;
+}
+:is(.ta-section--navy, .ta-section--band, .ta-codes) .ta-eyebrow {
+	color: var(--c-spark);
 }
 .ta-more {
 	margin: 1.75rem 0 0;
@@ -63,7 +75,7 @@
 .ta-services {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 0.75rem;
+	gap: 0.5rem;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -77,8 +89,8 @@
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	gap: 0.875rem;
-	padding: 1rem;
+	gap: 0.625rem;
+	padding: 0.75rem;
 	border: 1px solid var(--c-line);
 	border-radius: var(--r-md);
 	background: #fff;
@@ -89,9 +101,9 @@
 .ta-service__icon {
 	display: grid;
 	place-items: center;
-	width: 52px;
-	height: 52px;
-	border-radius: 14px;
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
 	background: var(--c-cyan-100);
 	color: var(--c-blue);
 	transition: background-color 0.2s, color 0.2s;
@@ -116,8 +128,8 @@
 }
 .ta-service__led {
 	position: absolute;
-	top: 1rem;
-	right: 1rem;
+	top: 0.75rem;
+	right: 0.75rem;
 	width: 8px;
 	height: 8px;
 	border-radius: 50%;
@@ -160,10 +172,10 @@
 @media (min-width: 600px) {
 	.ta-services {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1rem;
+		gap: 0.75rem;
 	}
 	.ta-service__link {
-		padding: 1.25rem;
+		padding: 0.9375rem;
 	}
 	.ta-service__tagline {
 		display: block;

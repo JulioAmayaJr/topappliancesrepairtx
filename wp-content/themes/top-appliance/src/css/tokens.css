@@ -28,7 +28,7 @@
 	--sh-lg: var(--wp--preset--shadow--lg);
 
 	--display: var(--wp--preset--font-family--archivo-display);
-	--wrap: 1240px;
+	--wrap: 1200px;
 	--gutter: clamp(1rem, 4vw, 2rem);
 	--tap: 48px;
 	--topbar-h: 40px;

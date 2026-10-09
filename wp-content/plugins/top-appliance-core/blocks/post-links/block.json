@@ -32,6 +32,18 @@
 		"label": {
 			"type": "string",
 			"default": ""
+		},
+		"collapsible": {
+			"type": "boolean",
+			"default": false
+		},
+		"title": {
+			"type": "string",
+			"default": ""
+		},
+		"allLabel": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

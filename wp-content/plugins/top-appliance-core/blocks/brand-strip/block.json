@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/brand-strip",
+	"title": "Brand logo strip",
+	"category": "top-appliance",
+	"description": "Brand logos in grayscale (color on hover), each linking to its brand page.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"render": "file:./render.php"
+}

@@ -7,7 +7,7 @@
 import { animate, inView } from 'motion';
 
 const EASE = [0.22, 0.8, 0.24, 1];
-const REVEAL = '.ta-section__head, .ta-reviews__title, .ta-why__media, .ta-quote, .ta-greviews-panel, .ta-zip, .ta-map, .ta-codes, .ta-latest, .ta-cta__form';
+const REVEAL = '.ta-section__head, .ta-why__media, .ta-rv, .ta-zip, .ta-map, .ta-codes, .ta-latest, .ta-cta__form, .ta-ctaband__card';
 const STAGGER = '.ta-services, .ta-brandwall, .ta-steps, .ta-checklist, .ta-links--chips, .ta-faq';
 const VIEW = { margin: '0px 0px -12% 0px' };
 

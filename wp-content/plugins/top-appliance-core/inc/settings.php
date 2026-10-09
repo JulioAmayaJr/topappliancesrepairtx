@@ -41,10 +41,16 @@ function top_settings_sections(): array {
 				'instagram'            => array( 'Instagram URL', 'url' ),
 				'youtube'              => array( 'YouTube URL', 'url' ),
 				'google_business'      => array( 'Google Business Profile URL', 'url', 'Added to schema sameAs.' ),
-				'google_reviews_url'   => array( 'Google reviews URL', 'url', 'Where "Read our reviews on Google" links to.' ),
-				'google_rating'        => array( 'Google rating', 'text', 'Optional, e.g. 4.9. Only shown when filled. Never added to schema.' ),
-				'google_review_count'  => array( 'Google review count', 'number', 'Optional. Only shown when filled.' ),
-				'google_reviews_embed' => array( 'Google reviews widget embed', 'code', 'Paste the widget HTML/script here. Rendered in the reviews section.' ),
+			),
+		),
+		'reviews'  => array(
+			'title'  => 'Reviews',
+			'fields' => array(
+				'google_reviews_url'  => array( 'Google reviews URL', 'url', 'Where "See all reviews on Google" links to.' ),
+				'google_rating'       => array( 'Average rating', 'text', 'e.g. 4.9 — copy it from Google. Shown only when filled. Never added to schema.' ),
+				'google_review_count' => array( 'Total reviews', 'number', 'Copy it from Google. Shown only when filled.' ),
+				'review_pinned'       => array( 'Pinned review (always shown first)', 'review' ),
+				'reviews'             => array( 'Reviews', 'reviews', 'Real reviews only (copy from Google with the customer name as shown there). Empty rows are ignored. A Google Places API sync can fill this list later through the top_reviews_source filter.' ),
 			),
 		),
 		'service'  => array(
@@ -122,6 +128,20 @@ function top_render_field( array $args ): void {
 			}
 			echo '</tbody></table>';
 			break;
+ 		case 'review':
+			top_render_review_row( $name, is_array( $value ) ? $value : array(), $id );
+			break;
+		case 'reviews':
+			$rows   = is_array( $value ) ? array_values( $value ) : array();
+			$rows[] = array();
+			$rows[] = array();
+			$rows[] = array();
+			echo '<div id="' . esc_attr( $id ) . '">';
+			foreach ( $rows as $i => $row ) {
+				top_render_review_row( $name . '[' . $i . ']', $row, $id . '_' . $i );
+			}
+			echo '</div>';
+			break;
 		case 'media':
 			printf( '<input type="number" min="0" id="%s" name="%s" value="%s" class="small-text">', esc_attr( $id ), esc_attr( $name ), esc_attr( (string) (int) $value ) );
 			if ( $value ) {
@@ -134,6 +154,31 @@ function top_render_field( array $args ): void {
 	if ( $args['help'] ) {
 		printf( '<p class="description">%s</p>', esc_html( $args['help'] ) );
 	}
+}
+
+function top_render_review_row( string $name, array $row, string $id ): void {
+	printf(
+		'<fieldset style="margin:0 0 12px;padding:10px;border:1px solid #ccd0d4;max-width:640px"><p style="margin:0 0 6px"><label for="%1$s_n">Name</label> <input id="%1$s_n" type="text" name="%2$s[name]" value="%3$s" class="regular-text"> <label for="%1$s_r">Rating</label> <input id="%1$s_r" type="number" min="1" max="5" name="%2$s[rating]" value="%4$s" class="small-text"> <label for="%1$s_d">Date</label> <input id="%1$s_d" type="date" name="%2$s[date]" value="%5$s"></p><p style="margin:0"><label class="screen-reader-text" for="%1$s_t">Review text</label><textarea id="%1$s_t" name="%2$s[text]" rows="3" class="large-text">%6$s</textarea></p></fieldset>',
+		esc_attr( $id ),
+		esc_attr( $name ),
+		esc_attr( $row['name'] ?? '' ),
+		esc_attr( (string) ( $row['rating'] ?? 5 ) ),
+		esc_attr( $row['date'] ?? '' ),
+		esc_textarea( $row['text'] ?? '' )
+	);
+}
+
+function top_sanitize_review( $row ): ?array {
+	if ( ! is_array( $row ) ) {
+		return null;
+	}
+	$out = array(
+		'name'   => sanitize_text_field( $row['name'] ?? '' ),
+		'rating' => max( 1, min( 5, (int) ( $row['rating'] ?? 5 ) ) ),
+		'date'   => preg_match( '/^\d{4}-\d{2}-\d{2}$/', (string) ( $row['date'] ?? '' ) ) ? $row['date'] : '',
+		'text'   => sanitize_textarea_field( $row['text'] ?? '' ),
+	);
+	return ( $out['name'] && $out['text'] ) ? $out : null;
 }
 
 function top_sanitize_business( $input ): array {
@@ -161,6 +206,12 @@ function top_sanitize_business( $input ): array {
 					break;
 				case 'code':
 					$out[ $key ] = current_user_can( 'unfiltered_html' ) ? (string) $raw : wp_kses_post( $raw );
+					break;
+				case 'review':
+					$out[ $key ] = top_sanitize_review( $raw ) ?? array();
+					break;
+				case 'reviews':
+					$out[ $key ] = array_values( array_filter( array_map( 'top_sanitize_review', is_array( $raw ) ? $raw : array() ) ) );
 					break;
 				case 'hours':
 					$hours = array();

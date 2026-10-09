@@ -42,3 +42,11 @@ add_action( 'wp_default_scripts', function ( WP_Scripts $scripts ) {
 	}
 	$scripts->registered['jquery']->deps = array_diff( $scripts->registered['jquery']->deps, array( 'jquery-migrate' ) );
 } );
+
+/* "Content pending" notes (class ta-todo) are editor notes: never shown to the public. */
+add_filter( 'render_block_core/paragraph', function ( string $html, array $block ) {
+	if ( str_contains( ' ' . ( $block['attrs']['className'] ?? '' ) . ' ', ' ta-todo ' ) && ! current_user_can( 'edit_posts' ) ) {
+		return '';
+	}
+	return $html;
+}, 10, 2 );

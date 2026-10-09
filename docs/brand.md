@@ -79,4 +79,7 @@ and are not brand colors.
   hover/focus.
 - Light, cool page (white / `tint-50`) with `navy` bands for trust bar, process and footer.
 - Red is reserved for one job: calling. Blue is for booking. That rule holds on every page.
-- No all-caps eyebrows, no numbered markers except the real 3-step process.
+- Section eyebrows (client request, 2026-10-09): 0.8125rem, uppercase, 0.08em tracking, in `cyan-700` on light backgrounds (the accent `cyan` is only 2.62:1 on white) and `spark` on dark ones.
+- Stars use `gear-deep` (no off-palette gold). Brand logos are third-party marks shown as supplied.
+- Placeholder imagery = the band gradient + white logo wheel with the cyan power icon, at the final photo's aspect ratio.
+- Numbered markers only for the real 3-step process.

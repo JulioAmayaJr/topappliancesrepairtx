@@ -14,7 +14,11 @@
 <!-- /wp:group -->
 
 <!-- wp:group {"className":"ta-why__copy","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-why__copy"><!-- wp:heading -->
+<div class="wp-block-group ta-why__copy"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">Why choose us</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">Why Houston homeowners call us</h2>
 <!-- /wp:heading -->
 

@@ -1,5 +1,6 @@
 // Compile theme assets: src/css → assets/css (bundled @imports, minified) and src/js → assets/js (ESM + lazy chunk).
 import * as esbuild from 'esbuild';
+import { rmSync } from 'node:fs';
 
 const theme = 'wp-content/themes/top-appliance';
 const watch = process.argv.includes('--watch');
@@ -30,6 +31,8 @@ const builds = [
 		target: ['es2020'],
 	},
 ];
+
+rmSync(`${theme}/assets/js/chunks`, { recursive: true, force: true });
 
 if (watch) {
 	for (const b of builds) (await esbuild.context(b)).watch();

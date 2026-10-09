@@ -12,7 +12,9 @@
 			"enum": [
 				"nap",
 				"hours",
-				"nap-hours"
+				"nap-hours",
+				"contact",
+				"hours-line"
 			],
 			"default": "nap-hours"
 		}

@@ -1,6 +1,6 @@
 # SEO, performance & accessibility checklist — Home
 
-Verified on 2026-10-08 against the local build (`http://localhost:8080/`, WordPress 7.1.3, PHP 8.3).
+Verified on 2026-10-08, re-checked on 2026-10-09 after the compact-scale / brands / reviews / footer update against the local build (`http://localhost:8080/`, WordPress 7.1.3, PHP 8.3).
 Re-run everything with `npm run shots`, `npm run lighthouse` and `npm run jsonld`.
 
 ## Lighthouse (lighthouse@12, Chrome for Testing 149)
@@ -8,6 +8,7 @@ Re-run everything with `npm run shots`, `npm run lighthouse` and `npm run jsonld
 | Run | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT | FCP |
 |---|---|---|---|---|---|---|---|---|
 | Mobile (Moto G Power emulation, slow 4G, 4× CPU) | **99** | **100** | **100** | **100** | 1.9 s | 0.005 | 10 ms | 1.0 s |
+| Mobile, 2026-10-09 update | **99** | **100** | **100** | **100** | 1.9 s | 0.005 | — | — |
 | Desktop | **100** | **100** | **100** | **100** | 0.4 s | 0 | 0 ms | 0.3 s |
 
 Remaining non-scored notices: DOM size (~1,270 nodes, mostly the duplicated desktop/mobile menus and
@@ -63,6 +64,13 @@ interaction handlers are tiny and the only third-party JS (Fluent Forms + jQuery
 - [x] Mega menu: disclosure buttons with `aria-expanded`, Escape closes, works on hover/click; mobile menu uses the Popover API and `<details>` — both work with JavaScript disabled
 - [x] Accessible name contains the visible label on every control (Lighthouse `label-content-name-mismatch` passes)
 
+## Reviews widget
+- [x] Google-style header (G logo, average rating + stars, total, "See all reviews on Google →") and an accessible carousel (prev/next buttons, swipe via scroll-snap, arrow keys, focusable track, "Read more" for clamped text)
+- [x] Data: Settings → Business Info → Reviews (pinned review + list + average + total); `top_reviews_source` filter ready for a Google Places API sync
+- [x] Linda L's real review is the pinned review, always shown first
+- [x] Sample reviews ("Customer A"…, labelled "Preview — sample reviews") appear only when `wp_get_environment_type()` is local/development or an admin is logged in; in production without data only Linda L + the Google link are shown
+- [x] No reviews and no aggregateRating in the JSON-LD
+
 ## Business data
 - [x] Phone, address, hours, email, socials, ZIPs, review links: **only** in Settings → Business Info, read via helpers, dynamic blocks and the `top/business` block-bindings source
 - [x] FAQ answers that mention hours/warranty are bound to Business Info too
@@ -70,14 +78,15 @@ interaction handlers are tiny and the only third-party JS (Fluent Forms + jQuery
 ## Placeholders to replace with real client data
 | Where | What is needed |
 |---|---|
-| Hero image | Real photo of a Top Appliances Repair technician at work, landscape 4:3, ≥1600×1200 |
-| "Why choose us" image | Technician/owner portrait with tools or service van, portrait 4:5, ≥1200×1500 |
-| 9 blog featured images | One photo per migrated article, 16:9, ≥1200×675 |
+| Hero image | Real photo of a technician at work, 4:3, ≥1600×1200 (today: brand gradient + logo wheel, same ratio) |
+| "Why choose us" image | Technician/owner portrait, 4:5, ≥1200×1500 (today: brand block, same ratio) |
+| 9 blog featured images | One photo per article, 16:9, ≥1200×675 (today: brand block) |
+| Reviews | Real Google reviews (name, rating, date, text), average rating and total in Business Info → Reviews |
+| Legal pages | Final Privacy Policy and Terms text (short drafts are published) |
 | Blog article bodies | Full text of the 9 posts (currently excerpt + migration note) |
-| Service / brand / area pages | Real copy (each shows a "Full page content will be written in the next phase" note) |
-| Google reviews | Confirm the Google Business Profile URL (taken from the current map embed, CID 7779343947408438677); optionally the rating + review count; paste the reviews widget embed |
+| Service / brand / area pages | Real copy (the "content pending" notes are visible to logged-in editors only) |
+| Google reviews link | Confirm the Google Business Profile URL (taken from the current map embed, CID 7779343947408438677) |
 | Geo coordinates | 29.6972365, −95.5878163 (OpenStreetMap geocode of the address) — verify against the GBP pin |
 | Service ZIP codes | Per-city ZIP lists seeded from public USPS assignments (Houston = 77002–77099) — confirm the real service area |
-| Brand logos | Optional: licensed logos for the brand wall (names are shown as text today) |
 | Email sender | Production SMTP/API in FluentSMTP (local uses Mailpit); recipient for booking notifications |
 | Error codes | Content for the `error_code` post type (archive and appliance terms exist, no codes yet) |

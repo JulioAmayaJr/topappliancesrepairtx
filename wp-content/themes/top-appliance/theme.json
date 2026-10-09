@@ -6,7 +6,7 @@
 		"useRootPaddingAwareAlignments": true,
 		"layout": {
 			"contentSize": "760px",
-			"wideSize": "1240px"
+			"wideSize": "1200px"
 		},
 		"color": {
 			"defaultPalette": false,
@@ -14,36 +14,127 @@
 			"defaultDuotone": false,
 			"customDuotone": false,
 			"palette": [
-				{ "slug": "gear-deep", "color": "#054199", "name": "Gear deep (logo wordmark)" },
-				{ "slug": "brand-blue", "color": "#054E99", "name": "Brand blue (primary)" },
-				{ "slug": "gear-light", "color": "#055C99", "name": "Gear light (logo gradient end)" },
-				{ "slug": "blue-bright", "color": "#0652A0", "name": "Blue bright (band gradient start)" },
-				{ "slug": "navy", "color": "#013469", "name": "Navy (secondary)" },
-				{ "slug": "navy-900", "color": "#01274F", "name": "Navy 900 (navy +25% black)" },
-				{ "slug": "cyan", "color": "#29ABE2", "name": "Cyan (logo power icon, accent)" },
-				{ "slug": "cyan-700", "color": "#196A8C", "name": "Cyan 700 (cyan +38% black)" },
-				{ "slug": "cyan-100", "color": "#E1F3FB", "name": "Cyan 100 (white +14% cyan)" },
-				{ "slug": "spark", "color": "#0BE8F7", "name": "Spark (accent on dark)" },
-				{ "slug": "mist", "color": "#7EBEC5", "name": "Mist (muted on dark)" },
-				{ "slug": "signal-red", "color": "#FF0000", "name": "Signal red (brand call color)" },
-				{ "slug": "red-600", "color": "#D60000", "name": "Red 600 (call buttons, AA)" },
-				{ "slug": "red-700", "color": "#B20000", "name": "Red 700 (call hover)" },
-				{ "slug": "ink", "color": "#00172F", "name": "Ink (navy +55% black)" },
-				{ "slug": "slate", "color": "#39618B", "name": "Slate (navy +22% white)" },
-				{ "slug": "tint-50", "color": "#F5F8FB", "name": "Tint 50" },
-				{ "slug": "tint-100", "color": "#E6EDF5", "name": "Tint 100" },
-				{ "slug": "line", "color": "#CDDCEB", "name": "Line" },
-				{ "slug": "white", "color": "#FFFFFF", "name": "White" }
+				{
+					"slug": "gear-deep",
+					"color": "#054199",
+					"name": "Gear deep (logo wordmark)"
+				},
+				{
+					"slug": "brand-blue",
+					"color": "#054E99",
+					"name": "Brand blue (primary)"
+				},
+				{
+					"slug": "gear-light",
+					"color": "#055C99",
+					"name": "Gear light (logo gradient end)"
+				},
+				{
+					"slug": "blue-bright",
+					"color": "#0652A0",
+					"name": "Blue bright (band gradient start)"
+				},
+				{
+					"slug": "navy",
+					"color": "#013469",
+					"name": "Navy (secondary)"
+				},
+				{
+					"slug": "navy-900",
+					"color": "#01274F",
+					"name": "Navy 900 (navy +25% black)"
+				},
+				{
+					"slug": "cyan",
+					"color": "#29ABE2",
+					"name": "Cyan (logo power icon, accent)"
+				},
+				{
+					"slug": "cyan-700",
+					"color": "#196A8C",
+					"name": "Cyan 700 (cyan +38% black)"
+				},
+				{
+					"slug": "cyan-100",
+					"color": "#E1F3FB",
+					"name": "Cyan 100 (white +14% cyan)"
+				},
+				{
+					"slug": "spark",
+					"color": "#0BE8F7",
+					"name": "Spark (accent on dark)"
+				},
+				{
+					"slug": "mist",
+					"color": "#7EBEC5",
+					"name": "Mist (muted on dark)"
+				},
+				{
+					"slug": "signal-red",
+					"color": "#FF0000",
+					"name": "Signal red (brand call color)"
+				},
+				{
+					"slug": "red-600",
+					"color": "#D60000",
+					"name": "Red 600 (call buttons, AA)"
+				},
+				{
+					"slug": "red-700",
+					"color": "#B20000",
+					"name": "Red 700 (call hover)"
+				},
+				{
+					"slug": "ink",
+					"color": "#00172F",
+					"name": "Ink (navy +55% black)"
+				},
+				{
+					"slug": "slate",
+					"color": "#39618B",
+					"name": "Slate (navy +22% white)"
+				},
+				{
+					"slug": "tint-50",
+					"color": "#F5F8FB",
+					"name": "Tint 50"
+				},
+				{
+					"slug": "tint-100",
+					"color": "#E6EDF5",
+					"name": "Tint 100"
+				},
+				{
+					"slug": "line",
+					"color": "#CDDCEB",
+					"name": "Line"
+				},
+				{
+					"slug": "white",
+					"color": "#FFFFFF",
+					"name": "White"
+				}
 			],
 			"gradients": [
-				{ "slug": "gear", "gradient": "linear-gradient(135deg,#054199 0%,#055C99 100%)", "name": "Gear (logo gradient)" },
-				{ "slug": "band", "gradient": "linear-gradient(180deg,#0652A0 0%,#013469 100%)", "name": "Band (current site footer)" }
+				{
+					"slug": "gear",
+					"gradient": "linear-gradient(135deg,#054199 0%,#055C99 100%)",
+					"name": "Gear (logo gradient)"
+				},
+				{
+					"slug": "band",
+					"gradient": "linear-gradient(180deg,#0652A0 0%,#013469 100%)",
+					"name": "Band (current site footer)"
+				}
 			]
 		},
 		"typography": {
 			"defaultFontSizes": false,
 			"dropCap": false,
-			"fluid": { "minViewportWidth": "360px", "maxViewportWidth": "1440px" },
+			"fluid": {
+				"minViewportWidth": "360px",
+				"maxViewportWidth": "1440px"
+			},
 			"fontFamilies": [
 				{
 					"slug": "archivo",
@@ -56,7 +147,9 @@
 							"fontStyle": "normal",
 							"fontStretch": "100% 125%",
 							"fontDisplay": "swap",
-							"src": [ "file:./assets/fonts/archivo-var.woff2" ]
+							"src": [
+								"file:./assets/fonts/archivo-var.woff2"
+							]
 						}
 					]
 				},
@@ -67,34 +160,114 @@
 				}
 			],
 			"fontSizes": [
-				{ "slug": "x-small", "name": "XS", "size": "0.8125rem", "fluid": false },
-				{ "slug": "small", "name": "S", "size": "0.9375rem", "fluid": { "min": "0.875rem", "max": "0.9375rem" } },
-				{ "slug": "base", "name": "Base", "size": "1.0625rem", "fluid": { "min": "1rem", "max": "1.0625rem" } },
-				{ "slug": "medium", "name": "M", "size": "1.25rem", "fluid": { "min": "1.125rem", "max": "1.25rem" } },
-				{ "slug": "large", "name": "L", "size": "1.75rem", "fluid": { "min": "1.375rem", "max": "1.75rem" } },
-				{ "slug": "x-large", "name": "XL", "size": "2.625rem", "fluid": { "min": "1.75rem", "max": "2.625rem" } },
-				{ "slug": "xx-large", "name": "XXL", "size": "3.625rem", "fluid": { "min": "2.125rem", "max": "3.625rem" } }
+				{
+					"slug": "x-small",
+					"name": "XS",
+					"size": "0.8125rem",
+					"fluid": false
+				},
+				{
+					"slug": "small",
+					"name": "S",
+					"size": "0.875rem",
+					"fluid": false
+				},
+				{
+					"slug": "base",
+					"name": "Base (body)",
+					"size": "clamp(1rem, 0.97rem + 0.15vw, 1.0625rem)",
+					"fluid": false
+				},
+				{
+					"slug": "medium",
+					"name": "M (H3)",
+					"size": "clamp(1.125rem, 1rem + 0.5vw, 1.375rem)",
+					"fluid": false
+				},
+				{
+					"slug": "large",
+					"name": "L (lede, cards, quotes)",
+					"size": "clamp(1.0625rem, 1rem + 0.2vw, 1.125rem)",
+					"fluid": false
+				},
+				{
+					"slug": "x-large",
+					"name": "XL (H2)",
+					"size": "clamp(1.625rem, 1.2rem + 1.6vw, 2.25rem)",
+					"fluid": false
+				},
+				{
+					"slug": "xx-large",
+					"name": "XXL (H1)",
+					"size": "clamp(2rem, 1.4rem + 2.6vw, 3.25rem)",
+					"fluid": false
+				}
 			]
 		},
 		"spacing": {
 			"defaultSpacingSizes": false,
-			"units": [ "px", "rem", "%", "vw" ],
+			"units": [
+				"px",
+				"rem",
+				"%",
+				"vw"
+			],
 			"spacingSizes": [
-				{ "slug": "10", "name": "1", "size": "0.5rem" },
-				{ "slug": "20", "name": "2", "size": "0.75rem" },
-				{ "slug": "30", "name": "3", "size": "1rem" },
-				{ "slug": "40", "name": "4", "size": "clamp(1rem, 2.5vw, 1.5rem)" },
-				{ "slug": "50", "name": "5", "size": "clamp(1.5rem, 4vw, 2.5rem)" },
-				{ "slug": "60", "name": "6", "size": "clamp(2.5rem, 6vw, 4rem)" },
-				{ "slug": "70", "name": "7", "size": "clamp(3.5rem, 8vw, 6.5rem)" }
+				{
+					"slug": "10",
+					"name": "1",
+					"size": "0.5rem"
+				},
+				{
+					"slug": "20",
+					"name": "2",
+					"size": "0.75rem"
+				},
+				{
+					"slug": "30",
+					"name": "3",
+					"size": "1rem"
+				},
+				{
+					"slug": "40",
+					"name": "4",
+					"size": "clamp(1rem, 2.5vw, 1.5rem)"
+				},
+				{
+					"slug": "50",
+					"name": "5",
+					"size": "clamp(1.5rem, 4vw, 2.5rem)"
+				},
+				{
+					"slug": "60",
+					"name": "6",
+					"size": "clamp(2rem, 4.5vw, 3rem)"
+				},
+				{
+					"slug": "70",
+					"name": "7",
+					"size": "clamp(48px, 6vw, 88px)"
+				}
 			]
 		},
 		"shadow": {
 			"defaultPresets": false,
 			"presets": [
-				{ "slug": "sm", "name": "Small", "shadow": "0 1px 2px rgb(1 52 105 / 0.08)" },
-				{ "slug": "md", "name": "Medium", "shadow": "0 8px 24px -8px rgb(1 52 105 / 0.22)" },
-				{ "slug": "lg", "name": "Large", "shadow": "0 24px 48px -16px rgb(1 52 105 / 0.30)" }
+				{
+					"slug": "sm",
+					"name": "Small",
+					"shadow": "0 1px 2px rgb(1 52 105 / 0.08)"
+				},
+				{
+					"slug": "md",
+					"name": "Medium",
+					"shadow": "0 8px 24px -8px rgb(1 52 105 / 0.22)"
+				},
+				{
+					"slug": "lg",
+					"name": "Large",
+					"shadow": "0 24px 48px -16px rgb(1 52 105 / 0.30)"
+				}
 			]
 		},
 		"border": {
@@ -104,10 +277,21 @@
 			"width": true
 		},
 		"custom": {
-			"radius": { "sm": "6px", "md": "12px", "lg": "20px", "pill": "999px" },
-			"header": { "topbar": "40px", "bar": "68px" },
+			"radius": {
+				"sm": "6px",
+				"md": "12px",
+				"lg": "20px",
+				"pill": "999px"
+			},
+			"header": {
+				"topbar": "40px",
+				"bar": "68px"
+			},
 			"tap": "48px",
-			"stretch": { "display": "125%", "text": "100%" }
+			"stretch": {
+				"display": "125%",
+				"text": "100%"
+			}
 		}
 	},
 	"styles": {
@@ -129,12 +313,22 @@
 		},
 		"elements": {
 			"link": {
-				"color": { "text": "var(--wp--preset--color--brand-blue)" },
-				"typography": { "textDecoration": "underline" },
-				":hover": { "color": { "text": "var(--wp--preset--color--gear-deep)" } }
+				"color": {
+					"text": "var(--wp--preset--color--brand-blue)"
+				},
+				"typography": {
+					"textDecoration": "underline"
+				},
+				":hover": {
+					"color": {
+						"text": "var(--wp--preset--color--gear-deep)"
+					}
+				}
 			},
 			"heading": {
-				"color": { "text": "var(--wp--preset--color--gear-deep)" },
+				"color": {
+					"text": "var(--wp--preset--color--gear-deep)"
+				},
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--archivo-display)",
 					"fontWeight": "800",
@@ -142,33 +336,100 @@
 					"letterSpacing": "-0.01em"
 				}
 			},
-			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--xx-large)", "lineHeight": "1.02", "letterSpacing": "-0.02em" } },
-			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--x-large)" } },
-			"h3": { "typography": { "fontSize": "var(--wp--preset--font-size--medium)", "lineHeight": "1.25", "letterSpacing": "0" } },
-			"h4": { "typography": { "fontSize": "var(--wp--preset--font-size--base)", "lineHeight": "1.3", "letterSpacing": "0" } },
+			"h1": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--xx-large)",
+					"lineHeight": "1.05",
+					"letterSpacing": "-0.02em"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--x-large)"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--medium)",
+					"lineHeight": "1.25",
+					"letterSpacing": "0"
+				}
+			},
+			"h4": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--base)",
+					"lineHeight": "1.3",
+					"letterSpacing": "0"
+				}
+			},
 			"button": {
 				"color": {
 					"background": "var(--wp--preset--color--brand-blue)",
 					"text": "var(--wp--preset--color--white)"
 				},
-				"border": { "radius": "999px", "width": "0" },
-				"typography": { "fontWeight": "700", "fontSize": "var(--wp--preset--font-size--base)", "lineHeight": "1.2" },
-				"spacing": { "padding": { "top": "0.875rem", "bottom": "0.875rem", "left": "1.5rem", "right": "1.5rem" } },
-				":hover": { "color": { "background": "var(--wp--preset--color--gear-deep)" } },
-				":focus": { "color": { "background": "var(--wp--preset--color--gear-deep)" } }
+				"border": {
+					"radius": "999px",
+					"width": "0"
+				},
+				"typography": {
+					"fontWeight": "700",
+					"fontSize": "var(--wp--preset--font-size--base)",
+					"lineHeight": "1.2"
+				},
+				"spacing": {
+					"padding": {
+						"top": "0.875rem",
+						"bottom": "0.875rem",
+						"left": "1.5rem",
+						"right": "1.5rem"
+					}
+				},
+				":hover": {
+					"color": {
+						"background": "var(--wp--preset--color--gear-deep)"
+					}
+				},
+				":focus": {
+					"color": {
+						"background": "var(--wp--preset--color--gear-deep)"
+					}
+				}
 			}
 		},
 		"blocks": {
 			"core/details": {
-				"border": { "bottom": { "color": "var(--wp--preset--color--line)", "width": "1px", "style": "solid" } }
+				"border": {
+					"bottom": {
+						"color": "var(--wp--preset--color--line)",
+						"width": "1px",
+						"style": "solid"
+					}
+				}
 			},
 			"core/post-title": {
-				"elements": { "link": { "typography": { "textDecoration": "none" }, "color": { "text": "inherit" } } }
+				"elements": {
+					"link": {
+						"typography": {
+							"textDecoration": "none"
+						},
+						"color": {
+							"text": "inherit"
+						}
+					}
+				}
 			}
 		}
 	},
 	"templateParts": [
-		{ "name": "header", "title": "Header", "area": "header" },
-		{ "name": "footer", "title": "Footer", "area": "footer" }
+		{
+			"name": "header",
+			"title": "Header",
+			"area": "header"
+		},
+		{
+			"name": "footer",
+			"title": "Footer",
+			"area": "footer"
+		}
 	]
 }

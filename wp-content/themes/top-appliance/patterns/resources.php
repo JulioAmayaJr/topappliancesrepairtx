@@ -11,8 +11,12 @@ $codes = get_post_type_archive_link( 'error_code' ) ?: home_url( '/error-codes/'
 ?>
 <!-- wp:group {"tagName":"section","anchor":"resources","className":"ta-section ta-resources","layout":{"type":"default"}} -->
 <section id="resources" class="wp-block-group ta-section ta-resources"><!-- wp:group {"className":"ta-wrap","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-wrap"><!-- wp:group {"className":"ta-section__head","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-section__head"><!-- wp:heading -->
+<div class="wp-block-group ta-wrap"><!-- wp:group {"className":"ta-section__head ta-section__head--center","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-section__head ta-section__head--center"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">Resources</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">Repair help and resources</h2>
 <!-- /wp:heading -->
 

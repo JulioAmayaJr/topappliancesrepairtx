@@ -10,7 +10,11 @@
 <!-- wp:group {"tagName":"section","anchor":"faq","className":"ta-section ta-section--tint ta-faq-sec","layout":{"type":"default"}} -->
 <section id="faq" class="wp-block-group ta-section ta-section--tint ta-faq-sec"><!-- wp:group {"className":"ta-faq-sec__inner ta-wrap","layout":{"type":"default"}} -->
 <div class="wp-block-group ta-faq-sec__inner ta-wrap"><!-- wp:group {"className":"ta-faq-sec__head","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-faq-sec__head"><!-- wp:heading -->
+<div class="wp-block-group ta-faq-sec__head"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">FAQ</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">Appliance repair questions</h2>
 <!-- /wp:heading -->
 

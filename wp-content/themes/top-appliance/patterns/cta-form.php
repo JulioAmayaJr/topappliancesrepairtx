@@ -10,7 +10,11 @@
 <!-- wp:group {"tagName":"section","anchor":"book","className":"ta-section ta-section--band ta-cta","layout":{"type":"default"}} -->
 <section id="book" class="wp-block-group ta-section ta-section--band ta-cta"><!-- wp:group {"className":"ta-cta__inner ta-wrap","layout":{"type":"default"}} -->
 <div class="wp-block-group ta-cta__inner ta-wrap"><!-- wp:group {"className":"ta-cta__copy","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-cta__copy"><!-- wp:heading -->
+<div class="wp-block-group ta-cta__copy"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">Book online</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">Book your appliance repair</h2>
 <!-- /wp:heading -->
 

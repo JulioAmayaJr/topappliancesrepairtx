@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/reviews",
+	"title": "Reviews carousel",
+	"category": "top-appliance",
+	"description": "Google-style reviews header and an accessible carousel. Data from Business Info (ready for Google Places).",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"render": "file:./render.php"
+}

@@ -3,24 +3,22 @@
  * Title: Reviews
  * Slug: top-appliance/reviews
  * Categories: top-sections
- * Description: The real customer review from the current site plus the slot for the Google reviews widget. Do not invent reviews.
+ * Description: Google-style reviews header and carousel. Data from Settings → Business Info → Reviews (ready for Google Places). Sample reviews appear only on local/dev or for admins.
  * Viewport Width: 1440
  */
 ?>
 <!-- wp:group {"tagName":"section","anchor":"reviews","className":"ta-section ta-reviews","layout":{"type":"default"}} -->
 <section id="reviews" class="wp-block-group ta-section ta-reviews"><!-- wp:group {"className":"ta-wrap","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-wrap"><!-- wp:heading {"className":"ta-reviews__title"} -->
-<h2 class="wp-block-heading ta-reviews__title">What customers say</h2>
-<!-- /wp:heading -->
+<div class="wp-block-group ta-wrap"><!-- wp:group {"className":"ta-section__head ta-section__head--center","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-section__head ta-section__head--center"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">Customer reviews</p>
+<!-- /wp:paragraph -->
 
-<!-- wp:group {"className":"ta-reviews__grid","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-reviews__grid"><!-- wp:quote {"className":"ta-quote"} -->
-<blockquote class="wp-block-quote ta-quote"><!-- wp:paragraph -->
-<p>Cannot say enough nice things about this company. The professionalism and dedication to customer service with something you don’t see very often. They were wonderful! Will recommend them to all of my friends and family.</p>
-<!-- /wp:paragraph --><cite>Linda L</cite></blockquote>
-<!-- /wp:quote -->
+<!-- wp:heading -->
+<h2 class="wp-block-heading">What Houston customers say</h2>
+<!-- /wp:heading --></div>
+<!-- /wp:group -->
 
-<!-- wp:top/google-reviews {"variant":"panel"} /--></div>
-<!-- /wp:group --></div>
+<!-- wp:top/reviews /--></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->

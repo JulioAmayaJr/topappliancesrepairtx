@@ -37,7 +37,7 @@
 <!-- /wp:group -->
 
 <!-- wp:group {"className":"ta-hero__media","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-hero__media"><?php echo top_image_block( 'hero', 'ta-hero__img ta-lcp', '(min-width: 1304px) 470px, (min-width: 900px) calc((100vw - 8rem) * 0.4), calc(100vw - 2rem)' ); // phpcs:ignore ?></div>
+<div class="wp-block-group ta-hero__media"><?php echo top_image_block( 'hero', 'ta-hero__img ta-lcp', '(min-width: 1264px) 456px, (min-width: 900px) calc((100vw - 8rem) * 0.4), calc(100vw - 2rem)' ); // phpcs:ignore ?></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->

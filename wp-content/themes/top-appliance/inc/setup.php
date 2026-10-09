@@ -17,7 +17,7 @@ add_action( 'after_setup_theme', function () {
 
 /* Skip link: first focusable element on every page (core's JS-injected one is removed in cleanup.php). */
 add_action( 'wp_body_open', function () {
-	echo '<a class="skip-link screen-reader-text" href="#main">Skip to content</a>';
+	echo '<a id="top" class="skip-link screen-reader-text" href="#main">Skip to content</a>';
 }, 1 );
 
 /* Theme-owned business data never lives here: see the "Business Info" settings (top-appliance-core). */

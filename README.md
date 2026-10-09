@@ -42,7 +42,8 @@ bin/setup.sh                  # install WP, plugins, configure, seed content
 
 First time only for the checks: `npx playwright install chromium`.
 
-Other helpers: `scripts/placeholders.py` regenerates the labelled photo placeholders (Pillow),
+Other helpers: `scripts/placeholders.py` regenerates the brand image blocks used until real photos arrive (Pillow),
+`scripts/brand-logos.py` normalises brand logos to uniform 200×80 WebP canvases,
 `scripts/font-subset.sh` rebuilds the self-hosted Archivo subset (fonttools).
 
 ## Export

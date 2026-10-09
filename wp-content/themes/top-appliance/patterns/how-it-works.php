@@ -9,8 +9,12 @@
 ?>
 <!-- wp:group {"tagName":"section","anchor":"how-it-works","className":"ta-section ta-section--navy ta-steps-sec","layout":{"type":"default"}} -->
 <section id="how-it-works" class="wp-block-group ta-section ta-section--navy ta-steps-sec"><!-- wp:group {"className":"ta-wrap","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-wrap"><!-- wp:group {"className":"ta-section__head","layout":{"type":"default"}} -->
-<div class="wp-block-group ta-section__head"><!-- wp:heading -->
+<div class="wp-block-group ta-wrap"><!-- wp:group {"className":"ta-section__head ta-section__head--center","layout":{"type":"default"}} -->
+<div class="wp-block-group ta-section__head ta-section__head--center"><!-- wp:paragraph {"className":"ta-eyebrow"} -->
+<p class="ta-eyebrow">How it works</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">How same-day repair works</h2>
 <!-- /wp:heading -->
 

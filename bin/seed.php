@@ -79,6 +79,17 @@ foreach ( $content['services'] as $i => $s ) {
 }
 
 /* -------------------------------------------------------------------- Brands */
+// Brand logos stay WebP (no AVIF conversion), 200x80 uniform canvases from scripts/brand-logos.py.
+$logo_files = array( 'Sub-Zero' => 'sub-zero', 'Whirlpool' => 'whirlpool', 'GE' => 'ge', 'Samsung' => 'samsung', 'LG' => 'lg', 'Bosch' => 'bosch', 'Thermador' => 'thermador', 'KitchenAid' => 'kitchenaid', 'Jenn-Air' => 'jenn-air', 'Maytag' => 'maytag', 'Kenmore' => 'kenmore', 'Viking' => 'viking', 'Amana' => 'amana', 'Admiral' => 'admiral', 'Thor' => 'thor' );
+$output_filters = $GLOBALS['wp_filter']['image_editor_output_format'] ?? null;
+remove_all_filters( 'image_editor_output_format' );
+$logo_ids = array();
+foreach ( $logo_files as $brand => $file ) {
+	$logo_ids[ $brand ] = top_seed_image( '/project/seed/brands/' . $file . '.webp', 'brand-logo-' . $file, $brand . ' logo', $brand . ' appliance repair' );
+}
+if ( $output_filters ) {
+	$GLOBALS['wp_filter']['image_editor_output_format'] = $output_filters;
+}
 foreach ( $content['brands'] as $i => $b ) {
 	top_upsert(
 		array(
@@ -89,7 +100,7 @@ foreach ( $content['brands'] as $i => $b ) {
 			'post_excerpt' => sprintf( '%s appliance repair in Houston, TX with same-day service.', $b['title'] ),
 			'post_content' => $p( sprintf( 'Top Appliances Repair repairs %s appliances across Houston with same-day service, a free estimate and a warranty on parts and labor.', $b['title'] ) ) . "\n\n" . $todo,
 		),
-		array( 'top_featured' => true, 'top_premium' => (bool) $b['premium'] )
+		array( 'top_featured' => true, 'top_premium' => (bool) $b['premium'], 'top_logo_id' => $logo_ids[ $b['title'] ] ?? 0 )
 	);
 }
 
@@ -126,7 +137,7 @@ foreach ( $posts as $post ) {
 		)
 	);
 	if ( $id ) {
-		$img = top_seed_image( '/project/seed/images/' . $post['image'] . '.webp', $post['image'], $post['title'] . ' (placeholder)', $post['title'] );
+		$img = top_seed_image( '/project/seed/images/brand-16x9.webp', 'brand-16x9', 'Top Appliances Repair brand image (replace with the article photo)', 'Top Appliances Repair' );
 		if ( $img ) {
 			set_post_thumbnail( $id, $img );
 		}
@@ -171,6 +182,24 @@ $blog = top_upsert(
 	array( 'post_type' => 'page', 'post_name' => 'blog', 'post_title' => 'Appliance Repair Tips', 'post_content' => '' ),
 	array( 'rank_math_description' => 'Appliance repair tips from Houston technicians: refrigerators, washers, dishwashers, stoves and more.' )
 );
+$privacy = top_upsert(
+	array(
+		'post_type'    => 'page',
+		'post_name'    => 'privacy-policy',
+		'post_title'   => 'Privacy Policy',
+		'post_content' => $p( 'Top Appliances Repair collects the information you send through our booking form (name, phone, ZIP code, appliance, brand and a description of the problem) only to respond to your request and schedule your repair. We do not sell your information. To ask us to update or delete your information, contact us by phone or email.' ) . "\n\n" . '<!-- wp:paragraph {"className":"ta-todo"} -->' . "\n<p class=\"ta-todo\">Review this policy with the client before launch.</p>\n<!-- /wp:paragraph -->",
+	)
+);
+update_option( 'wp_page_for_privacy_policy', $privacy );
+top_upsert(
+	array(
+		'post_type'    => 'page',
+		'post_name'    => 'terms',
+		'post_title'   => 'Terms of Service',
+		'post_content' => $p( 'Estimates are provided before any work starts and repairs begin only after you approve them. Repairs are covered by our warranty on parts and labor.' ) . "\n\n" . '<!-- wp:paragraph {"className":"ta-todo"} -->' . "\n<p class=\"ta-todo\">Write the full terms with the client before launch.</p>\n<!-- /wp:paragraph -->",
+	)
+);
+
 update_option( 'show_on_front', 'page' );
 update_option( 'page_on_front', $home );
 update_option( 'page_for_posts', $blog );

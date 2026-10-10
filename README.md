@@ -93,3 +93,4 @@ docs/                brand.md, url-inventory.csv, seo-checklist.md (Lighthouse r
 wp-content/themes/top-appliance/     theme.json, templates/, parts/, patterns/, src/ → assets/
 wp-content/plugins/top-appliance-core/  CPTs, settings, schema, blocks/
 ```
+# topappliancesrepairtx

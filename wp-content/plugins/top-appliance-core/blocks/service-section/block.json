@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/service-section",
+	"title": "Service section",
+	"category": "top-appliance",
+	"description": "Service-specific section: brands, service areas, FAQ, other services or cost table (cost table renders only when the service has approved prices).",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"section": {
+			"type": "string",
+			"enum": [
+				"brands",
+				"areas",
+				"faq",
+				"related",
+				"costs"
+			],
+			"default": "brands"
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"render": "file:./render.php"
+}

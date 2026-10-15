@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/service-hero",
+	"title": "Service hero",
+	"category": "top-appliance",
+	"description": "H1, subtitle, call/book buttons, same-day + warranty badges and the booking form with the appliance preselected.",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"render": "file:./render.php"
+}

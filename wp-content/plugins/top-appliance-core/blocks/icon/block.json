@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/icon",
+	"title": "Icon",
+	"category": "top-appliance",
+	"description": "An icon from the site icon set (used in problem cards).",
+	"textdomain": "top-appliance-core",
+	"attributes": {
+		"name": {
+			"type": "string",
+			"default": "tools"
+		},
+		"size": {
+			"type": "integer",
+			"default": 28
+		}
+	},
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"render": "file:./render.php"
+}

@@ -42,6 +42,10 @@ $privacy = get_privacy_policy_url() ?: home_url( '/privacy-policy/' );
 <!-- wp:group {"className":"ta-footer__bottom ta-wrap","layout":{"type":"default"}} -->
 <div class="wp-block-group ta-footer__bottom ta-wrap"><!-- wp:top/copyright /-->
 
+<!-- wp:paragraph {"className":"ta-footer__disclaimer"} -->
+<p class="ta-footer__disclaimer">All brand names and logos are trademarks of their respective owners. Top Appliances Repair is an independent service company and is not affiliated with or endorsed by these manufacturers.</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:paragraph {"className":"ta-footer__legal"} -->
 <p class="ta-footer__legal"><a href="<?php echo esc_url( $privacy ); ?>">Privacy Policy</a> <a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>">Terms</a> <a href="<?php echo esc_url( home_url( '/sitemap_index.xml' ) ); ?>">Sitemap</a> <a class="ta-totop" href="#top">Back to top ↑</a></p>
 <!-- /wp:paragraph --></div>

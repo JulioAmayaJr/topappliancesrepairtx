@@ -1,5 +1,6 @@
 // Validate the JSON-LD on a page: valid JSON, required @types, key fields, no self-serving review markup,
-// and only one schema source (Rank Math's must be off). Usage: node scripts/jsonld-check.mjs [url]
+// and only one schema source (Rank Math's must be off).
+// Usage: node scripts/jsonld-check.mjs [url] [comma-separated required @types]
 const url = process.argv[2] || 'http://localhost:8080/';
 const html = await (await fetch(url)).text();
 const blocks = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)];
@@ -22,13 +23,20 @@ for (const [, raw] of blocks) {
 }
 const byType = (t) => nodes.find((n) => [].concat(n['@type']).includes(t));
 
-for (const t of ['HomeAndConstructionBusiness', 'WebSite', 'BreadcrumbList', 'FAQPage']) {
+const required = process.argv[3] ? process.argv[3].split(',') : ['HomeAndConstructionBusiness', 'WebSite', 'BreadcrumbList', 'FAQPage'];
+for (const t of required) {
 	byType(t) ? pass(`@type ${t}`) : fail(`missing @type ${t}`);
 }
 const biz = byType('HomeAndConstructionBusiness') || {};
 for (const k of ['name', 'telephone', 'address', 'geo', 'openingHoursSpecification', 'areaServed', 'sameAs', 'logo', 'image', 'hasOfferCatalog', 'url']) {
 	biz[k] ? pass(`business.${k}`) : fail(`business.${k} missing`);
 }
+const service = byType('Service');
+if (service) {
+	service.provider?.['@id'] === biz['@id'] ? pass(`Service "${service.name}": provider = business, ${service.areaServed?.length || 0} cities, serviceType "${service.serviceType}"`) : fail('Service.provider is not the business');
+}
+const crumbs = byType('BreadcrumbList');
+if (crumbs) pass('breadcrumb: ' + crumbs.itemListElement.map((i) => i.name).join(' › '));
 if (biz.address) {
 	const a = biz.address;
 	['streetAddress', 'addressLocality', 'addressRegion', 'postalCode', 'addressCountry'].every((k) => a[k]) ? pass(`address: ${a.streetAddress}, ${a.addressLocality}, ${a.addressRegion} ${a.postalCode}`) : fail('address incomplete');

@@ -28,7 +28,8 @@ wp option update date_format 'F j, Y'
 wp option update start_of_week 0
 wp rewrite structure '/%postname%/' --hard
 wp option update blogdescription 'Same-day appliance repair in Houston, TX'
-wp option update blog_public 1
+# 1 = indexable (local/production), 0 = noindex (staging). Set BLOG_PUBLIC in .env.
+wp option update blog_public "${BLOG_PUBLIC:-1}"
 
 echo "→ Comments off everywhere"
 wp option update default_comment_status closed

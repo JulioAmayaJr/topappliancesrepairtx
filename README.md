@@ -24,6 +24,11 @@ bin/setup.sh                  # install WP, plugins, configure, seed content
 - Mailpit (catches every email the site sends): http://localhost:8027
 
 `bin/setup.sh` is idempotent. `bin/setup.sh --no-seed` configures without creating content.
+Set `BLOG_PUBLIC=0` in `.env` on staging so re-running setup keeps the site noindexed.
+
+Service pages: finished content lives in `seed/services/<slug>.html` (block markup: problems, signs/checks,
+article) and `seed/services/<slug>.json` (title, Rank Math title/description/keyword, H1, subtitle, FAQs,
+brands, costs). `bin/seed.php` uses them when present; other services keep provisional text.
 
 ## Day to day
 

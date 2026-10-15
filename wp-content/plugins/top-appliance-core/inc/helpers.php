@@ -118,6 +118,9 @@ function top_booking_url(): string {
 	if ( is_front_page() ) {
 		return '#book';
 	}
+	if ( is_singular( 'service' ) ) {
+		return '#book-form'; // the booking form in the service hero
+	}
 	$url = (string) top_biz( 'booking_url', '/contact/' );
 	return str_starts_with( $url, 'http' ) ? $url : home_url( $url );
 }

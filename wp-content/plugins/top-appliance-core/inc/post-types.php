@@ -110,6 +110,12 @@ function top_meta_schema(): array {
 			'top_icon'       => array( 'string', 'Icon slug from the theme icon set.', 'tools' ),
 			'top_short_name' => array( 'string', 'Short label for grids and menus, e.g. "Refrigerator".', '' ),
 			'top_tagline'    => array( 'string', 'One-line description used on cards.', '' ),
+			'top_h1'         => array( 'string', 'H1 of the service page, e.g. "Refrigerator Repair in Houston, TX".', '' ),
+			'top_subtitle'   => array( 'string', 'Hero subtitle.', '' ),
+			'top_form_value' => array( 'string', 'Appliance option preselected in the booking form.', '' ),
+			'top_faqs'       => array( 'array', 'FAQs: [{q, a}]. Rendered as the accordion and as FAQPage schema.', array() ),
+			'top_brands'     => array( 'array', 'Brand slugs relevant to this appliance.', array() ),
+			'top_costs'      => array( 'array', 'Cost table rows [{repair, range, note}]. Leave empty until prices are approved.', array() ),
 		),
 		'brand'        => array(
 			'top_featured'  => array( 'boolean', 'Show on the Home brand wall.', true ),
@@ -134,19 +140,24 @@ function top_meta_schema(): array {
 function top_register_meta(): void {
 	foreach ( top_meta_schema() as $post_type => $fields ) {
 		foreach ( $fields as $key => $def ) {
+			$rest = true;
+			if ( 'array' === $def[0] ) {
+				$rest = array( 'schema' => array( 'type' => 'array', 'items' => array( 'type' => array( 'object', 'string' ), 'additionalProperties' => true ) ) );
+			}
 			register_post_meta(
 				$post_type,
 				$key,
 				array(
+					'show_in_rest'      => $rest,
 					'type'              => $def[0],
 					'description'       => $def[1],
 					'default'           => $def[2],
 					'single'            => true,
-					'show_in_rest'      => true,
 					'sanitize_callback' => match ( $def[0] ) {
 						'integer' => 'absint',
 						'number'  => fn( $v ) => (float) $v,
 						'boolean' => 'rest_sanitize_boolean',
+						'array'   => fn( $v ) => is_array( $v ) ? map_deep( $v, 'wp_kses_post' ) : array(),
 						default   => 'sanitize_text_field',
 					},
 					'auth_callback'     => fn() => current_user_can( 'edit_posts' ),

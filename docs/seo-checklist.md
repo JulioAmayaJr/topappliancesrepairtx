@@ -90,3 +90,13 @@ interaction handlers are tiny and the only third-party JS (Fluent Forms + jQuery
 | Service ZIP codes | Per-city ZIP lists seeded from public USPS assignments (Houston = 77002–77099) — confirm the real service area |
 | Email sender | Production SMTP/API in FluentSMTP (local uses Mailpit); recipient for booking notifications |
 | Error codes | Content for the `error_code` post type (archive and appliance terms exist, no codes yet) |
+
+## Entrega 1 — service template + 4 service pages (2026-10-15)
+- [x] `single-service` template: breadcrumbs, compact hero (H1, CTAs, same-day / 90-day / free-estimate badges, booking form with the appliance preselected), common problems, signs + safe checks, article, how it works, brands for the appliance, cost table (renders only when approved prices exist — none today), reviews, service areas, FAQ, other services, CTA band + footer
+- [x] `/services/` archive shows every service (breadcrumb target, no 404)
+- [x] Content: Refrigerator 1,114 words · Washer 1,014 · Dishwasher 947 · Stove & Oven 968; no repeated sentences across pages; only approved claims; no prices, stats or invented reviews; gas-smell guidance points to the gas company / 911
+- [x] Rank Math title (≤60), description (≤155) and focus keyword per service from `seed/services/<slug>.json`
+- [x] JSON-LD per service page: `Service` (provider = business, areaServed = 15 cities, serviceType), `FAQPage` from the visible FAQ, `BreadcrumbList` (Home › Services › …); no aggregateRating
+- [x] One H1, H2/H3 hierarchy, descriptive internal links to brands, cities and related services
+- [x] Old URLs mapped in `docs/url-inventory.csv` (301 to activate at launch)
+- [x] Lighthouse mobile, `/services/refrigerator-repair/`: **99 / 100 / 100 / 100**, LCP 1.8 s, CLS 0

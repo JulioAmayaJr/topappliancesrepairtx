@@ -18,6 +18,7 @@ function top_print_schema(): void {
 		top_schema_website(),
 		top_schema_webpage(),
 		top_schema_breadcrumbs(),
+		top_schema_service(),
 		top_schema_faq(),
 	) ) );
 	if ( ! $graph ) {
@@ -28,6 +29,11 @@ function top_print_schema(): void {
 		JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | ( WP_DEBUG ? JSON_PRETTY_PRINT : 0 )
 	);
 	echo "<script type=\"application/ld+json\" class=\"top-schema\">$json</script>\n"; // phpcs:ignore
+}
+
+/** Post title without HTML entities (JSON-LD and breadcrumbs are escaped at output). */
+function top_plain_title( $post = 0 ): string {
+	return html_entity_decode( get_the_title( $post ), ENT_QUOTES, 'UTF-8' );
 }
 
 function top_schema_id( string $frag ): string {
@@ -182,7 +188,7 @@ function top_breadcrumb_trail(): array {
 		$post = get_queried_object();
 		$pt   = get_post_type_object( $post->post_type );
 		if ( 'post' === $post->post_type && get_option( 'page_for_posts' ) ) {
-			$trail[] = array( get_the_title( get_option( 'page_for_posts' ) ), get_permalink( get_option( 'page_for_posts' ) ) );
+			$trail[] = array( top_plain_title( get_option( 'page_for_posts' ) ), get_permalink( get_option( 'page_for_posts' ) ) );
 		} elseif ( $pt && $pt->has_archive ) {
 			$trail[] = array( $pt->labels->name, get_post_type_archive_link( $post->post_type ) );
 			if ( 'error_code' === $post->post_type ) {
@@ -193,10 +199,10 @@ function top_breadcrumb_trail(): array {
 			}
 		} elseif ( 'page' === $post->post_type ) {
 			foreach ( array_reverse( get_post_ancestors( $post ) ) as $anc ) {
-				$trail[] = array( get_the_title( $anc ), get_permalink( $anc ) );
+				$trail[] = array( top_plain_title( $anc ), get_permalink( $anc ) );
 			}
 		}
-		$trail[] = array( get_the_title( $post ), get_permalink( $post ) );
+		$trail[] = array( top_plain_title( $post ), get_permalink( $post ) );
 	} elseif ( is_post_type_archive() ) {
 		$pt      = get_post_type_object( get_query_var( 'post_type' ) );
 		$trail[] = array( $pt ? $pt->labels->name : '', top_current_url() );
@@ -204,7 +210,7 @@ function top_breadcrumb_trail(): array {
 		$trail[] = array( 'Error Codes', get_post_type_archive_link( 'error_code' ) );
 		$trail[] = array( single_term_title( '', false ) . ' error codes', top_current_url() );
 	} elseif ( is_home() ) {
-		$trail[] = array( get_the_title( get_option( 'page_for_posts' ) ), top_current_url() );
+		$trail[] = array( top_plain_title( get_option( 'page_for_posts' ) ), top_current_url() );
 	} elseif ( is_archive() ) {
 		$trail[] = array( wp_strip_all_tags( get_the_archive_title() ), top_current_url() );
 	}
@@ -232,12 +238,40 @@ function top_schema_breadcrumbs(): array {
  * FAQPage from the visible FAQ: every core/details block inside a block with class "ta-faq".
  * Theme patterns referenced via core/pattern are resolved, so schema always matches the page.
  */
+/** Service node on single service pages (provider = the business from Business Info). */
+function top_schema_service(): array {
+	if ( ! is_singular( 'service' ) ) {
+		return array();
+	}
+	$post  = get_queried_object();
+	$areas = array_map( fn( $a ) => array( '@type' => 'City', 'name' => $a['title'] . ', ' . top_biz( 'region' ) ), top_nav_data()['service_area'] ?? array() );
+	return array_filter(
+		array(
+			'@type'            => 'Service',
+			'@id'              => get_permalink( $post ) . '#service',
+			'name'             => get_post_meta( $post->ID, 'top_h1', true ) ?: top_plain_title( $post ),
+			'serviceType'      => top_plain_title( $post ),
+			'url'              => get_permalink( $post ),
+			'description'      => wp_strip_all_tags( get_the_excerpt( $post ) ),
+			'provider'         => array( '@id' => top_schema_id( 'business' ) ),
+			'areaServed'       => $areas,
+			'mainEntityOfPage' => array( '@id' => get_permalink( $post ) . '#webpage' ),
+		)
+	);
+}
+
 function top_schema_faq(): array {
 	if ( ! is_singular() ) {
 		return array();
 	}
 	$post = get_queried_object();
 	$qas  = array();
+	// Service pages: FAQs live in post meta and are rendered by the service-section block.
+	foreach ( (array) get_post_meta( $post->ID, 'top_faqs', true ) as $f ) {
+		if ( ! empty( $f['q'] ) && ! empty( $f['a'] ) ) {
+			$qas[] = array( wp_strip_all_tags( $f['q'] ), wp_kses( $f['a'], array( 'a' => array( 'href' => true ), 'strong' => array() ) ) );
+		}
+	}
 	top_collect_faq( parse_blocks( $post->post_content ), false, $qas );
 	if ( ! $qas ) {
 		return array();

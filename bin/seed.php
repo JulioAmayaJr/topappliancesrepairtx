@@ -62,8 +62,37 @@ foreach ( $content['appliances'] as $name ) {
 }
 
 /* ------------------------------------------------------------------ Services */
+// Finished services: seed/services/<slug>.html (block markup) + <slug>.json (SEO, H1, FAQs, brands).
+// Services without files keep the provisional text (editor-only "content pending" note).
 foreach ( $content['services'] as $i => $s ) {
-	$lower = strtolower( $s['short'] );
+	$html_file = '/project/seed/services/' . $s['slug'] . '.html';
+	$json_file = '/project/seed/services/' . $s['slug'] . '.json';
+	$meta      = array( 'top_icon' => $s['icon'], 'top_short_name' => $s['short'], 'top_tagline' => $s['tagline'] );
+	if ( file_exists( $html_file ) && file_exists( $json_file ) ) {
+		$data = json_decode( file_get_contents( $json_file ), true );
+		top_upsert(
+			array(
+				'post_type'    => 'service',
+				'post_name'    => $s['slug'],
+				'post_title'   => $data['title'] ?? $s['title'],
+				'menu_order'   => $i,
+				'post_excerpt' => $data['excerpt'] ?? '',
+				'post_content' => file_get_contents( $html_file ),
+			),
+			$meta + array(
+				'top_h1'                  => $data['h1'] ?? '',
+				'top_subtitle'            => $data['subtitle'] ?? '',
+				'top_form_value'          => $data['form_value'] ?? $s['short'],
+				'top_faqs'                => $data['faqs'] ?? array(),
+				'top_brands'              => $data['brands'] ?? array(),
+				'top_costs'               => $data['costs'] ?? array(),
+				'rank_math_title'         => $data['meta_title'] ?? '',
+				'rank_math_description'   => $data['meta_description'] ?? '',
+				'rank_math_focus_keyword' => $data['focus_keyword'] ?? '',
+			)
+		);
+		continue;
+	}
 	top_upsert(
 		array(
 			'post_type'    => 'service',
@@ -73,9 +102,8 @@ foreach ( $content['services'] as $i => $s ) {
 			'post_excerpt' => sprintf( 'Same-day %s service in Houston, TX: free estimate and a warranty on parts and labor.', strtolower( $s['title'] ) ),
 			'post_content' => $p( sprintf( 'Need %s in Houston? Top Appliances Repair sends a technician the same day, gives you a free estimate before any work starts and covers the repair with a warranty on parts and labor. We service every major brand, including Sub-Zero.', strtolower( $s['title'] ) ) ) . "\n\n" . $todo,
 		),
-		array( 'top_icon' => $s['icon'], 'top_short_name' => $s['short'], 'top_tagline' => $s['tagline'] )
+		$meta
 	);
-	unset( $lower );
 }
 
 /* -------------------------------------------------------------------- Brands */

@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/breadcrumbs",
+	"title": "Breadcrumbs",
+	"category": "top-appliance",
+	"description": "Visible breadcrumb trail (matches the BreadcrumbList schema).",
+	"textdomain": "top-appliance-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"usesContext": [
+		"postId",
+		"postType"
+	],
+	"render": "file:./render.php"
+}

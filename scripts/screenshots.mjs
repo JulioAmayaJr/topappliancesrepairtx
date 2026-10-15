@@ -1,9 +1,10 @@
 // Full-page + above-the-fold screenshots of a page at 390px and 1440px.
-// Usage: node scripts/screenshots.mjs [url] [outdir]
+// Usage: node scripts/screenshots.mjs [url] [outdir] [name]
 import { chromium } from 'playwright';
 
 const url = process.argv[2] || 'http://localhost:8080/';
 const out = process.argv[3] || 'docs/screenshots';
+const name = process.argv[4] || 'home';
 const sizes = [
 	{ name: 'mobile-390', width: 390, height: 844, mobile: true },
 	{ name: 'desktop-1440', width: 1440, height: 900, mobile: false },
@@ -18,7 +19,7 @@ for (const s of sizes) {
 	page.on('pageerror', (e) => errors.push(e.message));
 	await page.goto(url, { waitUntil: 'networkidle' });
 	await page.waitForTimeout(1800); // let the idle-loaded motion chunk initialise
-	await page.screenshot({ path: `${out}/home-${s.name}-fold.png` });
+	await page.screenshot({ path: `${out}/${name}-${s.name}-fold.png` });
 	// Scroll through so lazy images and scroll reveals settle, then capture the whole page.
 	await page.evaluate(async () => {
 		for (let y = 0; y < document.body.scrollHeight; y += 300) {
@@ -28,7 +29,7 @@ for (const s of sizes) {
 		window.scrollTo(0, 0);
 	});
 	await page.waitForTimeout(1200);
-	await page.screenshot({ path: `${out}/home-${s.name}-full.png`, fullPage: true });
+	await page.screenshot({ path: `${out}/${name}-${s.name}-full.png`, fullPage: true });
 	const overflow = await page.evaluate(() => {
 		const w = document.documentElement.clientWidth;
 		return [...document.querySelectorAll('body *')]

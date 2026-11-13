@@ -28,6 +28,10 @@ function top_print_schema(): void {
 		array( '@context' => 'https://schema.org', '@graph' => $graph ),
 		JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | ( WP_DEBUG ? JSON_PRETTY_PRINT : 0 )
 	);
+	// Entity URLs always use the public domain (no-op once home_url() is the domain).
+	if ( function_exists( 'top_swap_home' ) ) {
+		$json = top_swap_home( $json );
+	}
 	echo "<script type=\"application/ld+json\" class=\"top-schema\">$json</script>\n"; // phpcs:ignore
 }
 

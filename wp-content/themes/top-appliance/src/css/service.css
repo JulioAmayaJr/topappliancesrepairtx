@@ -245,3 +245,23 @@
 .ta-costs tbody tr:last-child > * {
 	border-bottom: 0;
 }
+
+/* ------------------------------------------------ Photos (top/photo block) */
+.ta-photo {
+	margin: 1.5rem auto 0;
+	max-width: 520px;
+}
+.ta-photo .ta-photo__img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: var(--r-md);
+	box-shadow: var(--sh-sm);
+}
+.ta-photo__caption {
+	margin-top: 0.625rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	color: var(--c-slate);
+	text-align: center;
+}

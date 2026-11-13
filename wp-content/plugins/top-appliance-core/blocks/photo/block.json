@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/photo",
+	"title": "Photo (media slot)",
+	"category": "top-appliance",
+	"icon": "format-image",
+	"description": "Shows a photo from the top_media registry by slot key, with srcset, lazy loading and intrinsic size. Content stays portable: no attachment IDs in post content.",
+	"attributes": {
+		"slot": { "type": "string", "default": "" },
+		"sizes": { "type": "string", "default": "" },
+		"caption": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"align": false
+	},
+	"render": "file:./render.php"
+}

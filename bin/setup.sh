@@ -53,6 +53,9 @@ wp theme activate top-appliance 2>/dev/null || echo "  (top-appliance theme not 
 
 if wp plugin is-active top-appliance-core >/dev/null 2>&1; then
   echo "→ Configure plugins and content"
+  # Final public domain: canonicals, og:url, sitemap, robots.txt, JSON-LD and llms.txt
+  # use it even while the site is browsed on an IP:port (see inc/public-url.php).
+  wp option update top_public_url "${PUBLIC_URL:-}"
   wp eval-file /project/bin/configure.php
   if [ "${1:-}" != "--no-seed" ]; then
     wp eval-file /project/bin/seed.php

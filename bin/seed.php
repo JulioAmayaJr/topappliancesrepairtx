@@ -52,6 +52,43 @@ function top_seed_image( string $file, string $key, string $title, string $alt )
 }
 
 $p = fn( string $text ) => "<!-- wp:paragraph -->\n<p>" . esc_html( $text ) . "</p>\n<!-- /wp:paragraph -->";
+
+/** Attachment ID by seed key (imported by bin/configure.php). */
+function top_seed_attachment( string $key ): int {
+	$found = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_top_seed_key', 'meta_value' => $key, 'fields' => 'ids', 'numberposts' => 1 ) );
+	return $found ? (int) $found[0] : 0;
+}
+
+/*
+ * Landscape photo per service, used as featured image so Rank Math picks it as
+ * og:image / twitter:image (services without one fall back to the branded PNG).
+ */
+$service_featured = array(
+	'refrigerator-repair' => 'photo-refrigerator-evaporator-coil-houston-tx-16x9',
+	'stove-oven-repair'   => 'photo-gas-range-stove-houston-tx-16x9',
+	'cooktop-repair'      => 'photo-gas-cooktop-repair-houston-tx',
+);
+
+/* JPG social image per post/service (og:image must be PNG/JPG — social networks reject AVIF). */
+$social_jpg = array(
+	'refrigerator-repair'                          => 'og-refrigerator-repair-houston-tx',
+	'stove-oven-repair'                            => 'og-stove-oven-repair-houston-tx',
+	'cooktop-repair'                               => 'og-cooktop-repair-houston-tx',
+	'refrigerator-not-cooling-what-might-be-wrong' => 'og-refrigerator-repair-houston-tx',
+	'what-happens-when-a-refrigerator'             => 'og-refrigerator-compressor-houston-tx',
+	'what-are-the-different-types-of-stoves'       => 'og-stove-oven-repair-houston-tx',
+);
+
+/** Set Rank Math's social image metas from a seed key. */
+function top_set_social_image( int $post_id, string $key ): void {
+	$id = top_seed_attachment( $key );
+	if ( ! $id ) {
+		return;
+	}
+	update_post_meta( $post_id, 'rank_math_facebook_image', wp_get_attachment_url( $id ) );
+	update_post_meta( $post_id, 'rank_math_facebook_image_id', $id );
+	update_post_meta( $post_id, 'rank_math_twitter_use_facebook', 'on' );
+}
 $todo = '<!-- wp:paragraph {"className":"ta-todo"} -->' . "\n<p class=\"ta-todo\">Full page content will be written in the next phase.</p>\n<!-- /wp:paragraph -->";
 
 /* ---------------------------------------------------------------- Appliances */
@@ -70,7 +107,7 @@ foreach ( $content['services'] as $i => $s ) {
 	$meta      = array( 'top_icon' => $s['icon'], 'top_short_name' => $s['short'], 'top_tagline' => $s['tagline'] );
 	if ( file_exists( $html_file ) && file_exists( $json_file ) ) {
 		$data = json_decode( file_get_contents( $json_file ), true );
-		top_upsert(
+		$sid  = top_upsert(
 			array(
 				'post_type'    => 'service',
 				'post_name'    => $s['slug'],
@@ -91,19 +128,40 @@ foreach ( $content['services'] as $i => $s ) {
 				'rank_math_focus_keyword' => $data['focus_keyword'] ?? '',
 			)
 		);
+		if ( $sid && isset( $service_featured[ $s['slug'] ] ) && ( $tid = top_seed_attachment( $service_featured[ $s['slug'] ] ) ) ) {
+			set_post_thumbnail( $sid, $tid );
+		}
+		if ( $sid && isset( $social_jpg[ $s['slug'] ] ) ) {
+			top_set_social_image( $sid, $social_jpg[ $s['slug'] ] );
+		}
 		continue;
 	}
-	top_upsert(
+	$provisional = $p( sprintf( 'Need %s in Houston? Top Appliances Repair sends a technician the same day, gives you a free estimate before any work starts and covers the repair with a warranty on parts and labor. We service every major brand, including Sub-Zero.', strtolower( $s['title'] ) ) );
+	// Real photo (when we have one for this appliance) between the intro and the editor note.
+	if ( ! empty( $s['photo_slot'] ) ) {
+		$provisional .= "\n\n" . '<!-- wp:top/photo {"slot":"' . $s['photo_slot'] . '","sizes":"(min-width: 600px) 520px, calc(100vw - 2rem)"} /-->';
+	}
+	$provisional_meta = array();
+	if ( ! empty( $s['meta_description'] ) ) {
+		$provisional_meta['rank_math_description'] = $s['meta_description'];
+	}
+	$sid = top_upsert(
 		array(
 			'post_type'    => 'service',
 			'post_name'    => $s['slug'],
 			'post_title'   => $s['title'],
 			'menu_order'   => $i,
 			'post_excerpt' => sprintf( 'Same-day %s service in Houston, TX: free estimate and a warranty on parts and labor.', strtolower( $s['title'] ) ),
-			'post_content' => $p( sprintf( 'Need %s in Houston? Top Appliances Repair sends a technician the same day, gives you a free estimate before any work starts and covers the repair with a warranty on parts and labor. We service every major brand, including Sub-Zero.', strtolower( $s['title'] ) ) ) . "\n\n" . $todo,
+			'post_content' => $provisional . "\n\n" . $todo,
 		),
-		$meta
+		$meta + $provisional_meta
 	);
+	if ( $sid && isset( $service_featured[ $s['slug'] ] ) && ( $tid = top_seed_attachment( $service_featured[ $s['slug'] ] ) ) ) {
+		set_post_thumbnail( $sid, $tid );
+	}
+	if ( $sid && isset( $social_jpg[ $s['slug'] ] ) ) {
+		top_set_social_image( $sid, $social_jpg[ $s['slug'] ] );
+	}
 }
 
 /* -------------------------------------------------------------------- Brands */
@@ -125,7 +183,7 @@ foreach ( $content['brands'] as $i => $b ) {
 			'post_name'    => sanitize_title( $b['title'] ),
 			'post_title'   => $b['title'],
 			'menu_order'   => $i,
-			'post_excerpt' => sprintf( '%s appliance repair in Houston, TX with same-day service.', $b['title'] ),
+			'post_excerpt' => sprintf( '%s appliance repair in Houston, TX: refrigerators, laundry, dishwashers, ovens and more. Same-day service, free estimate, 90-day warranty.', $b['title'] ),
 			'post_content' => $p( sprintf( 'Top Appliances Repair repairs %s appliances across Houston with same-day service, a free estimate and a warranty on parts and labor.', $b['title'] ) ) . "\n\n" . $todo,
 		),
 		array( 'top_featured' => true, 'top_premium' => (bool) $b['premium'], 'top_logo_id' => $logo_ids[ $b['title'] ] ?? 0 )
@@ -140,7 +198,7 @@ foreach ( $content['areas'] as $i => $a ) {
 			'post_name'    => $a['slug'],
 			'post_title'   => $a['title'],
 			'menu_order'   => $i,
-			'post_excerpt' => sprintf( 'Same-day appliance repair in %s, TX.', $a['title'] ),
+			'post_excerpt' => sprintf( 'Same-day appliance repair in %s, TX: refrigerators, washers, dryers, dishwashers and ovens. Free estimate and a 90-day warranty on parts and labor.', $a['title'] ),
 			'post_content' => $p( sprintf( 'Top Appliances Repair serves homes in %s, TX with same-day appliance repair, a free estimate and a warranty on parts and labor.', $a['title'] ) ) . "\n\n" . $todo,
 		),
 		array( 'top_zips' => implode( ',', $a['zips'] ), 'top_lat' => $a['lat'], 'top_lng' => $a['lng'], 'top_county' => $a['county'] )
@@ -165,9 +223,25 @@ foreach ( $posts as $post ) {
 		)
 	);
 	if ( $id ) {
-		$img = top_seed_image( '/project/seed/images/brand-16x9.webp', 'brand-16x9', 'Top Appliances Repair brand image (replace with the article photo)', 'Top Appliances Repair' );
+		// Real photos where we have one that matches the article; brand image otherwise.
+		$featured_map = array(
+			'refrigerator-not-cooling-what-might-be-wrong' => 'photo-refrigerator-evaporator-coil-houston-tx-16x9',
+			'what-happens-when-a-refrigerator'             => 'photo-refrigerator-compressor-houston-tx-16x9',
+			'what-are-the-different-types-of-stoves'       => 'photo-gas-range-stove-houston-tx-16x9',
+		);
+		$img = 0;
+		if ( isset( $featured_map[ $post['slug'] ] ) ) {
+			$found = get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_top_seed_key', 'meta_value' => $featured_map[ $post['slug'] ], 'fields' => 'ids', 'numberposts' => 1 ) );
+			$img   = $found ? (int) $found[0] : 0;
+		}
+		if ( ! $img ) {
+			$img = top_seed_image( '/project/seed/images/brand-16x9.webp', 'brand-16x9', 'Top Appliances Repair brand image (replace with the article photo)', 'Top Appliances Repair' );
+		}
 		if ( $img ) {
 			set_post_thumbnail( $id, $img );
+		}
+		if ( isset( $social_jpg[ $post['slug'] ] ) ) {
+			top_set_social_image( $id, $social_jpg[ $post['slug'] ] );
 		}
 	}
 }
@@ -204,11 +278,11 @@ $contact = top_upsert(
 		'post_title'   => 'Contact Us',
 		'post_content' => $p( 'Call us, or send the form below and we will contact you to confirm a same-day visit.' ) . "\n\n" . '<!-- wp:pattern {"slug":"top-appliance/cta-form"} /-->',
 	),
-	array( 'rank_math_description' => 'Contact Top Appliances Repair in Houston, TX. Call or book same-day appliance repair online.' )
+	array( 'rank_math_description' => 'Contact Top Appliances Repair in Houston, TX: call 832-514-1594 or book same-day appliance repair online. Free estimate before any work starts.' )
 );
 $blog = top_upsert(
 	array( 'post_type' => 'page', 'post_name' => 'blog', 'post_title' => 'Appliance Repair Tips', 'post_content' => '' ),
-	array( 'rank_math_description' => 'Appliance repair tips from Houston technicians: refrigerators, washers, dishwashers, stoves and more.' )
+	array( 'rank_math_description' => 'Appliance repair tips from Houston technicians: why refrigerators stop cooling, washers won’t drain, dryers run cold — and when to call for service.' )
 );
 $privacy = top_upsert(
 	array(

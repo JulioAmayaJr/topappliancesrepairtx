@@ -51,23 +51,57 @@ foreach ( array( 'hero', 'why', 'blog-washer-not-draining', 'blog-dishwasher-not
 	}
 }
 
-/* Section photos (placeholders until the client sends real photos) → `top_media` slots used by patterns. */
-$img = '/project/seed/images/';
+/* Real photos (from the client, 2026-11) → Media Library, one import per file. */
+$photo_dir   = '/project/seed/photos/';
+$photo_files = array(
+	'gas-cooktop-repair-houston-tx'                 => array( 'Gas cooktop repair in Houston, TX', 'Gas cooktop with all four burners lit during a service visit in Houston, TX' ),
+	'appliance-repair-technician-houston-tx'        => array( 'Appliance repair technician in Houston, TX', 'Top Appliances Repair technician working on a built-in refrigerator compressor in Houston, TX' ),
+	'refrigerator-repair-houston-tx'                => array( 'Refrigerator repair in Houston, TX', 'Refrigerator evaporator coil exposed during a repair in Houston, TX' ),
+	'refrigerator-compressor-replacement-houston-tx' => array( 'Refrigerator compressor replacement in Houston, TX', 'New compressor ready to be installed in a refrigerator in Houston, TX' ),
+	'oven-repair-houston-tx'                        => array( 'Oven repair in Houston, TX', 'Electric oven bake element glowing during a heating test in Houston, TX' ),
+	'gas-range-stove-repair-houston-tx'             => array( 'Stove repair in Houston, TX', 'Gas range burners being tested during a stove repair in Houston, TX' ),
+	'built-in-microwave-oven-repair-houston-tx'     => array( 'Built-in microwave repair in Houston, TX', 'Technician servicing a built-in microwave and wall oven combination in Houston, TX' ),
+	'refrigerator-evaporator-coil-houston-tx-16x9'  => array( 'Refrigerator evaporator coil (wide)', 'Refrigerator evaporator coil exposed during a repair in Houston, TX' ),
+	'refrigerator-compressor-houston-tx-16x9'       => array( 'Refrigerator compressor (wide)', 'New compressor ready to be installed in a refrigerator in Houston, TX' ),
+	'gas-range-stove-houston-tx-16x9'               => array( 'Gas range burners (wide)', 'Gas range burners being tested during a stove repair in Houston, TX' ),
+);
+$photo_ids = array();
+foreach ( $photo_files as $file => $meta ) {
+	$photo_ids[ $file ] = top_seed_media( $photo_dir . $file . '.webp', 'photo-' . $file, $meta[0], $meta[1] );
+}
+
+/* Media slots used by patterns (hero, why-choose-us) and the top/photo block on service pages. */
 update_option(
 	'top_media',
 	array_merge(
 		(array) get_option( 'top_media', array() ),
 		array(
-			'hero' => top_seed_media( $img . 'brand-4x3.webp', 'brand-4x3', 'Top Appliances Repair brand image (replace with a technician photo)', 'Top Appliances Repair' ),
-			'why'  => top_seed_media( $img . 'brand-4x5.webp', 'brand-4x5', 'Top Appliances Repair brand image (replace with a technician portrait)', 'Top Appliances Repair' ),
+			'hero'                          => $photo_ids['gas-cooktop-repair-houston-tx'],
+			'why'                           => $photo_ids['appliance-repair-technician-houston-tx'],
+			'photo-refrigerator'            => $photo_ids['refrigerator-repair-houston-tx'],
+			'photo-refrigerator-compressor' => $photo_ids['refrigerator-compressor-replacement-houston-tx'],
+			'photo-oven'                    => $photo_ids['oven-repair-houston-tx'],
+			'photo-stove'                   => $photo_ids['gas-range-stove-repair-houston-tx'],
+			'photo-microwave'               => $photo_ids['built-in-microwave-oven-repair-houston-tx'],
+			'photo-cooktop'                 => $photo_ids['gas-cooktop-repair-houston-tx'],
 		)
 	)
 );
-// Social image must stay PNG (Facebook/LinkedIn/X reject AVIF): import it with format conversion off.
+// Social images must stay PNG/JPG (Facebook/LinkedIn/X reject AVIF): import them with format conversion off.
+$img = '/project/seed/images/';
 remove_all_filters( 'image_editor_output_format' );
 $top_media       = (array) get_option( 'top_media', array() );
 $top_media['og'] = top_seed_media( $img . 'og-default.png', 'og-png', 'Top Appliances Repair social image', 'Top Appliances Repair: same-day appliance repair in Houston, TX' );
 update_option( 'top_media', $top_media );
+// JPG variants of the real photos for per-page og:image (assigned in bin/seed.php).
+foreach ( array(
+	'og-refrigerator-repair-houston-tx'     => 'Refrigerator evaporator coil exposed during a repair in Houston, TX',
+	'og-refrigerator-compressor-houston-tx' => 'New compressor ready to be installed in a refrigerator in Houston, TX',
+	'og-stove-oven-repair-houston-tx'       => 'Gas range burners being tested during a stove repair in Houston, TX',
+	'og-cooktop-repair-houston-tx'          => 'Gas cooktop with all four burners lit during a service visit in Houston, TX',
+) as $og_file => $og_alt ) {
+	top_seed_media( $photo_dir . 'jpg/' . $og_file . '.jpg', $og_file, 'Social image: ' . $og_file, $og_alt );
+}
 set_theme_mod( 'custom_logo', $logo_mark );
 update_option( 'site_logo', $logo_mark );
 
@@ -171,13 +205,18 @@ update_option(
 			'pt_page_title'             => '%title% %sep% %sitename%',
 			'pt_service_title'          => '%title% in Houston, TX %sep% %sitename%',
 			'pt_service_archive_title'  => 'Appliance Repair Services in Houston, TX %sep% %sitename%',
+			'pt_service_archive_description' => 'Every appliance we repair in Houston, TX: refrigerators, washers, dryers, dishwashers, stoves, microwaves and more. Same-day service and free estimates.',
 			'pt_brand_title'            => '%title% Appliance Repair in Houston %sep% %sitename%',
 			'pt_brand_archive_title'    => 'Appliance Brands We Service in Houston, TX %sep% %sitename%',
+			'pt_brand_archive_description' => 'Appliance brands we repair in Houston, TX — from Sub-Zero, Thermador and Viking to Samsung, LG, Whirlpool and GE. Same-day service, 90-day warranty.',
 			'pt_service_area_title'     => 'Appliance Repair in %title%, TX %sep% %sitename%',
 			'pt_service_area_archive_title' => 'Service Areas Around Houston, TX %sep% %sitename%',
+			'pt_service_area_archive_description' => 'Cities where Top Appliances Repair offers same-day appliance repair: Houston, Katy, Sugar Land, Cypress, Spring, The Woodlands and more nearby areas.',
 			'pt_error_code_title'       => '%title% %sep% %sitename%',
 			'pt_error_code_archive_title' => 'Appliance Error Codes %sep% %sitename%',
+			'pt_error_code_archive_description' => 'Common appliance error codes explained by Houston repair technicians: what each code means, what to check and when to book a repair visit.',
 			'tax_appliance_title'       => '%term% Error Codes %sep% %sitename%',
+			'tax_appliance_description' => '%term% error codes explained by Houston appliance repair technicians: what each code means, safe checks to try and when to call for service.',
 			'pt_attachment_robots'      => array( 'noindex' ),
 		)
 	)
@@ -194,7 +233,7 @@ update_option(
 			'strip_category_base'     => 'off',
 			'nofollow_external_links' => 'off',
 			'new_window_external_links' => 'off',
-			'robots_txt_content'      => "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n\nSitemap: " . home_url( '/sitemap_index.xml' ),
+			'robots_txt_content'      => "User-agent: *\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n\nSitemap: " . ( function_exists( 'top_public_base' ) ? top_public_base() : home_url() ) . '/sitemap_index.xml',
 		)
 	)
 );
@@ -220,6 +259,42 @@ update_option(
 		)
 	)
 );
+
+/* ------------------------------------------- 301 redirects (old site URLs) */
+/*
+ * seed/redirects.csv maps every indexable URL of the current live site to its
+ * closest equivalent here (source of truth: docs/url-inventory.csv). Loaded into
+ * Rank Math's Redirections module; inert until the domain points at this site.
+ */
+if ( class_exists( '\RankMath\Redirections\DB' ) && file_exists( '/project/seed/redirects.csv' ) ) {
+	$existing = array();
+	foreach ( \RankMath\Redirections\DB::get_redirections( array( 'limit' => 1000 ) )['redirections'] ?? array() as $r ) {
+		foreach ( (array) maybe_unserialize( $r['sources'] ) as $src ) {
+			$existing[ $src['pattern'] ?? '' ] = true;
+		}
+	}
+	$added = 0;
+	$fh    = fopen( '/project/seed/redirects.csv', 'r' );
+	fgetcsv( $fh ); // header
+	while ( ( $row = fgetcsv( $fh ) ) !== false ) {
+		list( $from, $to ) = array_map( 'trim', $row );
+		$pattern = trim( $from, '/' );
+		if ( '' === $pattern || isset( $existing[ $pattern ] ) ) {
+			continue;
+		}
+		\RankMath\Redirections\DB::add(
+			array(
+				'sources'     => array( array( 'pattern' => $pattern, 'comparison' => 'exact', 'ignore' => 'case' ) ),
+				'url_to'      => $to,
+				'header_code' => 301,
+				'status'      => 'active',
+			)
+		);
+		$added++;
+	}
+	fclose( $fh );
+	WP_CLI::log( "Redirections: $added added" );
+}
 
 /* ------------------------------------------------- FluentSMTP → Mailpit */
 $conn_key = md5( 'mailpit-local' );

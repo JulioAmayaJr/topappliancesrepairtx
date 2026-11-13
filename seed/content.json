@@ -40,21 +40,25 @@
    "title": "Cooktop Repair",
    "short": "Cooktop",
    "icon": "cooktop",
-   "tagline": "Burners that won’t light or heat"
+   "tagline": "Burners that won’t light or heat",
+   "meta_description": "Same-day cooktop repair in Houston, TX: gas burners that won't light, dead induction or electric elements. Free estimate and 90-day warranty.",
+   "photo_slot": "photo-cooktop"
   },
   {
    "slug": "ice-maker-repair",
    "title": "Ice Maker Repair",
    "short": "Ice Maker",
    "icon": "ice-maker",
-   "tagline": "No ice, leaks, jams"
+   "tagline": "No ice, leaks, jams",
+   "meta_description": "Same-day ice maker repair in Houston, TX: no ice, small or cloudy cubes, leaks and jams. Free estimate and 90-day warranty on parts and labor."
   },
   {
    "slug": "freezer-repair",
    "title": "Freezer Repair",
    "short": "Freezer",
    "icon": "freezer",
-   "tagline": "Frost buildup, not freezing"
+   "tagline": "Frost buildup, not freezing",
+   "meta_description": "Same-day freezer repair in Houston, TX: not freezing, frost buildup, leaks and noisy operation. Free estimate and 90-day warranty on parts and labor."
   },
   {
    "slug": "microwave-repair",
@@ -75,7 +79,8 @@
    "title": "Dryer Vent Cleaning",
    "short": "Dryer Vent",
    "icon": "dryer-vent",
-   "tagline": "Long dry times, lint buildup"
+   "tagline": "Long dry times, lint buildup",
+   "meta_description": "Dryer vent cleaning in Houston, TX: shorter dry times, less lint and lower fire risk. Same-day service with upfront pricing."
   }
  ],
  "brands": [

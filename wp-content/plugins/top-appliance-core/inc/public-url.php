@@ -37,6 +37,9 @@ function top_public_url( string $url ): string {
 add_filter( 'rank_math/frontend/canonical', 'top_swap_home', 20 );
 add_filter( 'rank_math/opengraph/url', 'top_swap_home', 20 );
 
+/* robots.txt: whatever WP/Rank Math emit (the Sitemap line uses home_url), always on the domain. */
+add_filter( 'robots_txt', 'top_swap_home', 99 );
+
 /*
  * Sitemap: Rank Math builds index and entry URLs from home_url() in several places,
  * so the reliable fix is to rewrite the whole XML response. The buffer callback runs

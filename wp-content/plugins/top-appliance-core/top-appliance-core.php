@@ -26,6 +26,7 @@ require_once TOP_CORE_DIR . 'inc/blocks.php';
 require_once TOP_CORE_DIR . 'inc/schema.php';
 require_once TOP_CORE_DIR . 'inc/integrations.php';
 require_once TOP_CORE_DIR . 'inc/public-url.php';
+require_once TOP_CORE_DIR . 'inc/seo.php';
 
 register_activation_hook( __FILE__, function () {
 	top_register_post_types();

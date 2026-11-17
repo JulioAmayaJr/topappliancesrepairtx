@@ -62,6 +62,8 @@ $photo_files = array(
 	'gas-range-stove-repair-houston-tx'             => array( 'Stove repair in Houston, TX', 'Gas range burners being tested during a stove repair in Houston, TX' ),
 	'built-in-microwave-oven-repair-houston-tx'     => array( 'Built-in microwave repair in Houston, TX', 'Technician servicing a built-in microwave and wall oven combination in Houston, TX' ),
 	'refrigerator-evaporator-coil-houston-tx-16x9'  => array( 'Refrigerator evaporator coil (wide)', 'Refrigerator evaporator coil exposed during a repair in Houston, TX' ),
+	'appliance-repair-technician-houston-tx-16x9'   => array( 'Appliance repair technician at work (wide)', 'Top Appliances Repair technician working on a refrigerator compressor in Houston, TX' ),
+	'oven-heating-element-houston-tx-16x9'          => array( 'Oven heating element (wide)', 'Electric oven bake element glowing during a heating test in Houston, TX' ),
 	'refrigerator-compressor-houston-tx-16x9'       => array( 'Refrigerator compressor (wide)', 'New compressor ready to be installed in a refrigerator in Houston, TX' ),
 	'gas-range-stove-houston-tx-16x9'               => array( 'Gas range burners (wide)', 'Gas range burners being tested during a stove repair in Houston, TX' ),
 );
@@ -99,6 +101,8 @@ foreach ( array(
 	'og-refrigerator-compressor-houston-tx' => 'New compressor ready to be installed in a refrigerator in Houston, TX',
 	'og-stove-oven-repair-houston-tx'       => 'Gas range burners being tested during a stove repair in Houston, TX',
 	'og-cooktop-repair-houston-tx'          => 'Gas cooktop with all four burners lit during a service visit in Houston, TX',
+	'og-appliance-repair-technician-houston-tx' => 'Top Appliances Repair technician working on a refrigerator compressor in Houston, TX',
+	'og-oven-heating-element-houston-tx'    => 'Electric oven bake element glowing during a heating test in Houston, TX',
 ) as $og_file => $og_alt ) {
 	top_seed_media( $photo_dir . 'jpg/' . $og_file . '.jpg', $og_file, 'Social image: ' . $og_file, $og_alt );
 }
@@ -170,7 +174,9 @@ update_option(
 delete_transient( 'top_nav_data' );
 
 /* --------------------------------------------------------------- Rank Math */
-update_option( 'rank_math_modules', array( 'sitemap', 'redirections', 'link-counter' ) ); // no 'rich-snippet' (schema)
+// 'instant-indexing' = IndexNow: new and updated URLs are pushed to Bing and the other
+// IndexNow participants the moment they are published. No 'rich-snippet' (we own the schema).
+update_option( 'rank_math_modules', array( 'sitemap', 'redirections', 'link-counter', 'instant-indexing' ) );
 update_option( 'rank_math_wizard_completed', true );
 update_option( 'rank_math_registration_skip', 1 );
 update_option( 'rank_math_is_configured', true );
@@ -204,12 +210,12 @@ update_option(
 			'pt_post_title'             => '%title% %sep% %sitename%',
 			'pt_page_title'             => '%title% %sep% %sitename%',
 			'pt_service_title'          => '%title% in Houston, TX %sep% %sitename%',
-			'pt_service_archive_title'  => 'Appliance Repair Services in Houston, TX %sep% %sitename%',
+			'pt_service_archive_title'  => 'Houston Appliance Repair Services %sep% %sitename%',
 			'pt_service_archive_description' => 'Every appliance we repair in Houston, TX: refrigerators, washers, dryers, dishwashers, stoves, microwaves and more. Same-day service and free estimates.',
-			'pt_brand_title'            => '%title% Appliance Repair in Houston %sep% %sitename%',
-			'pt_brand_archive_title'    => 'Appliance Brands We Service in Houston, TX %sep% %sitename%',
+			'pt_brand_title'            => '%title% Appliance Repair Houston %sep% %sitename%',
+			'pt_brand_archive_title'    => 'Brands We Service in Houston %sep% %sitename%',
 			'pt_brand_archive_description' => 'Appliance brands we repair in Houston, TX — from Sub-Zero, Thermador and Viking to Samsung, LG, Whirlpool and GE. Same-day service, 90-day warranty.',
-			'pt_service_area_title'     => 'Appliance Repair in %title%, TX %sep% %sitename%',
+			'pt_service_area_title'     => '%title% Appliance Repair %sep% %sitename%',
 			'pt_service_area_archive_title' => 'Service Areas Around Houston, TX %sep% %sitename%',
 			'pt_service_area_archive_description' => 'Cities where Top Appliances Repair offers same-day appliance repair: Houston, Katy, Sugar Land, Cypress, Spring, The Woodlands and more nearby areas.',
 			'pt_error_code_title'       => '%title% %sep% %sitename%',
@@ -259,6 +265,20 @@ update_option(
 		)
 	)
 );
+
+/* ----------------------------------------------------------- IndexNow */
+/*
+ * IndexNow pushes new and updated URLs straight to Bing, Yandex, Seznam and Naver
+ * instead of waiting for a crawl. The key is generated once and then served from
+ * <key>.txt at the site root, which is how the protocol verifies ownership.
+ */
+$ii = (array) get_option( 'rank-math-options-instant-indexing', array() );
+if ( empty( $ii['indexnow_api_key'] ) ) {
+	$ii['indexnow_api_key'] = str_replace( '-', '', wp_generate_uuid4() );
+}
+$ii['bing_post_types'] = array( 'post', 'page', 'service', 'brand', 'service_area', 'error_code' );
+update_option( 'rank-math-options-instant-indexing', $ii );
+WP_CLI::log( 'IndexNow key: ' . $ii['indexnow_api_key'] );
 
 /* ------------------------------------------- 301 redirects (old site URLs) */
 /*

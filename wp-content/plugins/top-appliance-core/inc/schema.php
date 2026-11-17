@@ -19,11 +19,13 @@ function top_print_schema(): void {
 		top_schema_webpage(),
 		top_schema_breadcrumbs(),
 		top_schema_service(),
+		top_schema_blogposting(),
 		top_schema_faq(),
 	) ) );
 	if ( ! $graph ) {
 		return;
 	}
+	$graph = array_map( 'top_schema_prune', $graph );
 	$json = wp_json_encode(
 		array( '@context' => 'https://schema.org', '@graph' => $graph ),
 		JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | ( WP_DEBUG ? JSON_PRETTY_PRINT : 0 )
@@ -46,6 +48,26 @@ function top_schema_id( string $frag ): string {
 
 function top_attachment_url( int $id, string $size = 'full' ): string {
 	return $id ? (string) wp_get_attachment_image_url( $id, $size ) : '';
+}
+
+/**
+ * Remove empty strings, empty arrays and nulls anywhere in a schema node: audit tools
+ * report an empty property (an empty telephone, say) as an error, and schema.org treats
+ * a missing property and an empty one very differently.
+ */
+function top_schema_prune( $value ) {
+	if ( ! is_array( $value ) ) {
+		return $value;
+	}
+	$out = array();
+	foreach ( $value as $k => $v ) {
+		$v = top_schema_prune( $v );
+		if ( null === $v || '' === $v || array() === $v ) {
+			continue;
+		}
+		$out[ $k ] = $v;
+	}
+	return $out;
 }
 
 function top_schema_business(): array {
@@ -114,15 +136,14 @@ function top_schema_business(): array {
 			'@type'           => 'OfferCatalog',
 			'name'            => 'Appliance repair services',
 			'itemListElement' => array_map(
+				// The catalog already belongs to the business: repeating provider/areaServed here
+				// made every offer parse as a separate local listing with no phone number.
 				fn( $s ) => array(
-					'@type'         => 'Offer',
-					'itemOffered'   => array(
-						'@type'      => 'Service',
-						'name'       => $s['title'],
-						'url'        => $s['url'],
-						'serviceType' => 'Appliance repair',
-						'provider'   => array( '@id' => top_schema_id( 'business' ) ),
-						'areaServed' => array( '@type' => 'City', 'name' => top_biz( 'city' ) . ', ' . top_biz( 'region' ) ),
+					'@type'       => 'Offer',
+					'itemOffered' => array(
+						'@type' => 'Service',
+						'name'  => html_entity_decode( $s['title'], ENT_QUOTES, 'UTF-8' ),
+						'url'   => $s['url'],
 					),
 				),
 				$services
@@ -253,12 +274,38 @@ function top_schema_service(): array {
 		array(
 			'@type'            => 'Service',
 			'@id'              => get_permalink( $post ) . '#service',
-			'name'             => get_post_meta( $post->ID, 'top_h1', true ) ?: top_plain_title( $post ),
+			// Plain service name (no city suffix) so this never reads as a second business listing.
+			'name'             => top_plain_title( $post ),
 			'serviceType'      => top_plain_title( $post ),
 			'url'              => get_permalink( $post ),
 			'description'      => wp_strip_all_tags( get_the_excerpt( $post ) ),
 			'provider'         => array( '@id' => top_schema_id( 'business' ) ),
 			'areaServed'       => $areas,
+			'mainEntityOfPage' => array( '@id' => get_permalink( $post ) . '#webpage' ),
+		)
+	);
+}
+
+/** BlogPosting for blog articles; publisher and author are the business entity. */
+function top_schema_blogposting(): array {
+	if ( ! is_singular( 'post' ) ) {
+		return array();
+	}
+	$post  = get_queried_object();
+	$image = get_post_thumbnail_id( $post ) ? top_attachment_url( (int) get_post_thumbnail_id( $post ), 'full' ) : '';
+	return array_filter(
+		array(
+			'@type'            => 'BlogPosting',
+			'@id'              => get_permalink( $post ) . '#article',
+			'headline'         => top_plain_title( $post ),
+			'description'      => wp_strip_all_tags( get_the_excerpt( $post ) ),
+			'url'              => get_permalink( $post ),
+			'datePublished'    => get_the_date( DATE_W3C, $post ),
+			'dateModified'     => get_the_modified_date( DATE_W3C, $post ),
+			'image'            => $image,
+			'inLanguage'       => 'en-US',
+			'author'           => array( '@id' => top_schema_id( 'business' ) ),
+			'publisher'        => array( '@id' => top_schema_id( 'business' ) ),
 			'mainEntityOfPage' => array( '@id' => get_permalink( $post ) . '#webpage' ),
 		)
 	);

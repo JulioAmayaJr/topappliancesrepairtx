@@ -1,0 +1,12 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/page-heading",
+	"title": "Page heading (H1)",
+	"category": "top-appliance",
+	"icon": "heading",
+	"description": "The page H1, taken from the post's top_h1 field when set so the heading can carry the service and city while the post title stays short for menus and breadcrumbs.",
+	"usesContext": [ "postId" ],
+	"supports": { "html": false },
+	"render": "file:./render.php"
+}

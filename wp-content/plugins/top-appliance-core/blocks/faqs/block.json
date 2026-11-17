@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "top/faqs",
+	"title": "FAQ section",
+	"category": "top-appliance",
+	"icon": "editor-help",
+	"description": "Renders the Q&As stored in the post's top_faqs field as <details> items. The JSON-LD FAQPage is generated from the same field, so the page and the schema can never disagree.",
+	"attributes": {
+		"heading": { "type": "string", "default": "Frequently asked questions" },
+		"lede": { "type": "string", "default": "" },
+		"eyebrow": { "type": "string", "default": "FAQ" }
+	},
+	"usesContext": [ "postId" ],
+	"supports": { "html": false },
+	"render": "file:./render.php"
+}

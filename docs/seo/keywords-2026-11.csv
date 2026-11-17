@@ -1,0 +1,51 @@
+keyword,intent,target_url,priority,volume,notes
+appliance repair houston tx,local,/,High,,Primary money term. Home page is the only target; city pages must not compete for the bare term.
+appliance repair katy tx,local,/service-areas/katy/,High,,Second-largest market after Houston. Page covers Harris/Fort Bend/Waller sides.
+appliance repair cypress tx,local,/service-areas/cypress/,High,,Garage refrigerator angle is the local differentiator.
+appliance repair sugar land tx,local,/service-areas/sugar-land/,High,,Built-in refrigeration angle; pairs with Sub-Zero brand page.
+appliance repair richmond tx,local,/service-areas/richmond/,Medium,,Fort Bend County seat; mixed old/new housing.
+appliance repair fulshear tx,local,/service-areas/fulshear/,Medium,,"New construction, premium kitchens."
+appliance repair jersey village tx,local,/service-areas/jersey-village/,Medium,,"Older homes, long-serving appliances."
+appliance repair cinco ranch,local,/service-areas/cinco-ranch/,Medium,,Built-in wall ovens and panel-ready dishwashers.
+appliance repair hockley tx,local,/service-areas/hockley/,Low,,Far northwest; chest freezers and shop fridges.
+appliance repair the woodlands tx,local,/service-areas/the-woodlands/,High,,Montgomery County; premium appliances.
+appliance repair spring tx,local,/service-areas/spring/,Medium,,Mixed housing stock along I-45.
+appliance repair tomball tx,local,/service-areas/tomball/,Medium,,Laundry and dryer vent angle.
+appliance repair bellaire tx,local,/service-areas/bellaire/,Medium,,Enclave city; renovated kitchens with built-ins.
+appliance repair memorial houston,local,/service-areas/memorial/,Medium,,"Sub-Zero/Thermador built-ins, wine storage."
+appliance repair heights houston,local,/service-areas/the-heights/,Medium,,"Historic bungalows, compact and counter-depth units."
+refrigerator repair houston,service,/services/refrigerator-repair/,High,,Highest-value service term after the brand/home term.
+washer repair houston,service,/services/washer-repair/,High,,
+dryer repair houston,service,/services/dryer-repair/,High,,Published in Entrega 2; supported by the dryer-not-heating post.
+dishwasher repair houston,service,/services/dishwasher-repair/,High,,
+oven repair houston,service,/services/stove-oven-repair/,High,,Page covers both stove and oven; cooktop has its own page.
+cooktop repair houston,service,/services/cooktop-repair/,Medium,,Service page still provisional - needs full copy next.
+microwave repair houston,service,/services/microwave-repair/,Medium,,Built-in and over-the-range angle is the differentiator.
+freezer repair houston,service,/services/freezer-repair/,Medium,,Service page still provisional - needs full copy next.
+ice maker repair houston,service,/services/ice-maker-repair/,Medium,,Service page still provisional - needs full copy next.
+garbage disposal repair houston,service,/services/garbage-disposal-repair/,Medium,,Published in Entrega 2.
+dryer vent cleaning houston,service,/services/dryer-vent-cleaning/,Medium,,Cross-sell from every dryer page and the dryer-not-heating post.
+same day appliance repair houston,service,/services/,High,,"Services hub owns the ""same day"" qualifier; individual pages use it as support copy only."
+sub zero repair houston,brand,/brands/sub-zero/,High,,Highest-value brand term; dual refrigeration and built-in angle.
+samsung refrigerator repair houston,brand,/brands/samsung/,High,,Supported by the samsung ice maker post.
+lg refrigerator repair houston,brand,/brands/lg/,High,,Linear compressor angle.
+whirlpool washer repair houston,brand,/brands/whirlpool/,High,,
+bosch dishwasher repair houston,brand,/brands/bosch/,High,,Supported by the bosch not drying post.
+thermador repair houston,brand,/brands/thermador/,Medium,,Pro ranges and Freedom induction.
+viking range repair houston,brand,/brands/viking/,Medium,,Supported by the gas burner post.
+kitchenaid dishwasher repair houston,brand,/brands/kitchenaid/,Medium,,
+maytag washer repair houston,brand,/brands/maytag/,Medium,,Noisy drum / bearings angle.
+kenmore appliance repair houston,brand,/brands/kenmore/,Medium,,Model-prefix explainer is the unique asset on this page.
+ge appliance repair houston,brand,/brands/ge/,Medium,,"Profile, Cafe and Monogram."
+jenn air downdraft repair houston,brand,/brands/jenn-air/,Low,,Niche but very low competition.
+appliance brands we service houston,brand,/brands/,Medium,,Hub term; individual brand pages must not target it.
+dryer not heating,problem,/dryer-not-heating/,High,,New post (Nov). Links to dryer repair + dryer vent cleaning.
+dishwasher not draining,problem,/dishwasher-not-draining/,High,,"New post (Nov). Distinct from the existing ""not cleaning"" post."
+ice maker not making ice,problem,/ice-maker-not-making-ice/,High,,New post (Nov). Generic symptom; the Samsung post covers freezing over.
+oven not heating,problem,/oven-not-heating/,High,,New post (Nov). Gas igniter vs electric element split.
+freezer not freezing,problem,/freezer-not-freezing/,Medium,,New post (Nov). Covers garage and chest freezers.
+garbage disposal humming not working,problem,/garbage-disposal-humming/,Medium,,New post (Nov). Jam-clearing safety angle.
+samsung ice maker freezing up,problem,/samsung-ice-maker-freezing-up/,High,,New post (Nov). Brand + symptom; highest-intent brand query we can answer.
+bosch dishwasher not drying,problem,/bosch-dishwasher-not-drying/,Medium,,New post (Nov). Condensation drying explainer.
+washing machine not draining,problem,/what-to-do-if-your-washing-machine-is-not-draining/,High,,"Existing post from the old site - keep and expand later, do not write a second one."
+refrigerator not cooling,problem,/refrigerator-not-cooling-what-might-be-wrong/,High,,Existing post - do not duplicate. Links to refrigerator repair.

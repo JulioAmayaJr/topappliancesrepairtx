@@ -5,5 +5,6 @@
 @import "./header.css";
 @import "./hero.css";
 @import "./above-fold-sections.css";
+@import "./inner-critical.css";
 @import "./service-critical.css";
 @import "./form.css";

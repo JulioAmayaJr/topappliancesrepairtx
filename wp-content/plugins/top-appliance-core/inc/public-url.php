@@ -60,6 +60,7 @@ add_action( 'parse_query', function ( $query ) {
  */
 add_action( 'init', function () {
 	add_rewrite_rule( '^llms\.txt$', 'index.php?top_llms=1', 'top' );
+	add_rewrite_rule( '^llms-full\.txt$', 'index.php?top_llms=full', 'top' );
 } );
 add_filter( 'query_vars', function ( array $vars ) {
 	$vars[] = 'top_llms';
@@ -70,12 +71,13 @@ add_filter( 'redirect_canonical', function ( $redirect ) {
 	return get_query_var( 'top_llms' ) ? false : $redirect;
 } );
 add_action( 'template_redirect', function () {
-	if ( '1' !== get_query_var( 'top_llms' ) ) {
+	$which = (string) get_query_var( 'top_llms' );
+	if ( '1' !== $which && 'full' !== $which ) {
 		return;
 	}
 	header( 'Content-Type: text/plain; charset=utf-8' );
 	header( 'X-Robots-Tag: noindex' );
-	echo top_llms_txt(); // phpcs:ignore WordPress.Security.EscapeOutput
+	echo 'full' === $which ? top_llms_full_txt() : top_llms_txt(); // phpcs:ignore WordPress.Security.EscapeOutput
 	exit;
 } );
 
@@ -138,4 +140,118 @@ function top_llms_txt(): string {
 	$lines[] = '- [Contact / book service](' . $base . '/contact/)';
 	$lines[] = '';
 	return implode( "\n", $lines );
+}
+
+/**
+ * /llms-full.txt — the full text an AI assistant needs to answer about this business
+ * without crawling every page: services, brands, service areas with their ZIP codes,
+ * and every FAQ published on the site, in plain text.
+ */
+function top_llms_full_txt(): string {
+	$base  = top_public_base();
+	$data  = top_nav_data();
+	$name  = top_biz( 'name' ) ?: 'Top Appliances Repair';
+	$days  = (int) top_biz( 'warranty_days' );
+	$dec   = fn( $t ) => html_entity_decode( (string) $t, ENT_QUOTES, 'UTF-8' );
+
+	$l   = array();
+	$l[] = '# ' . $name . ' — full reference';
+	$l[] = '';
+	$l[] = 'Appliance repair company in Houston, Texas. This file contains the complete public';
+	$l[] = 'information about the business: contact details, services, brands, service areas and';
+	$l[] = 'every frequently asked question published on the website.';
+	$l[] = '';
+	$l[] = '## Business';
+	$l[] = '';
+	$l[] = 'Name: ' . $name;
+	if ( top_phone() ) {
+		$l[] = 'Phone: ' . top_phone();
+	}
+	if ( top_biz( 'email' ) ) {
+		$l[] = 'Email: ' . top_biz( 'email' );
+	}
+	$addr = trim( top_address_line() . ', ' . top_biz( 'city' ) . ', ' . top_biz( 'region' ) . ' ' . top_biz( 'postal_code' ), ', ' );
+	if ( $addr ) {
+		$l[] = 'Address: ' . $addr;
+	}
+	foreach ( top_hours_groups( false ) as $g ) {
+		$l[] = 'Hours: ' . implode( ', ', array_map( fn( $d ) => TOP_DAYS[ $d ][1], $g['days'] ) ) . ' ' . $g['open'] . '–' . $g['close'];
+	}
+	$l[] = 'Website: ' . $base . '/';
+	$l[] = 'Service model: in-home residential appliance repair, same-day visits, free estimate before any work'
+		. ( $days ? ', ' . $days . '-day warranty on parts and labor' : '' ) . '.';
+	$l[] = 'Independent repair company: not affiliated with or endorsed by any appliance manufacturer.';
+	$l[] = '';
+
+	$l[] = '## Services';
+	$l[] = '';
+	foreach ( $data['service'] ?? array() as $s ) {
+		$l[] = '### ' . $dec( $s['title'] );
+		$l[] = 'URL: ' . top_public_url( $s['url'] );
+		$post = get_post( $s['id'] );
+		if ( $post && $post->post_excerpt ) {
+			$l[] = $dec( $post->post_excerpt );
+		}
+		$l[] = '';
+	}
+
+	$l[] = '## Brands we service';
+	$l[] = '';
+	foreach ( $data['brand'] ?? array() as $b ) {
+		$post = get_post( $b['id'] );
+		$l[]  = '- ' . $dec( $b['title'] ) . ' — ' . top_public_url( $b['url'] )
+			. ( $post && $post->post_excerpt ? ' — ' . $dec( $post->post_excerpt ) : '' );
+	}
+	$l[] = '';
+
+	$l[] = '## Service areas';
+	$l[] = '';
+	foreach ( $data['service_area'] ?? array() as $a ) {
+		$county = (string) get_post_meta( $a['id'], 'top_county', true );
+		$zips   = array_slice( (array) $a['zips'], 0, 30 );
+		$l[]    = '### ' . $dec( $a['title'] ) . ', TX';
+		$l[]    = 'URL: ' . top_public_url( $a['url'] );
+		if ( $county ) {
+			$l[] = 'County: ' . $county;
+		}
+		if ( $zips ) {
+			$l[] = 'ZIP codes: ' . implode( ', ', $zips ) . ( count( (array) $a['zips'] ) > 30 ? ', and more' : '' );
+		}
+		$l[] = '';
+	}
+
+	$l[] = '## Frequently asked questions';
+	$l[] = '';
+	$ids = array();
+	foreach ( array( 'service', 'brand', 'service_area' ) as $pt ) {
+		foreach ( $data[ $pt ] ?? array() as $item ) {
+			$ids[ $item['id'] ] = $item['title'];
+		}
+	}
+	foreach ( get_posts( array( 'post_type' => array( 'page', 'post' ), 'posts_per_page' => 100, 'post_status' => 'publish', 'fields' => 'ids' ) ) as $id ) {
+		$ids[ $id ] = get_the_title( $id );
+	}
+	foreach ( $ids as $id => $title ) {
+		$faqs = array_filter( (array) get_post_meta( $id, 'top_faqs', true ), fn( $f ) => ! empty( $f['q'] ) && ! empty( $f['a'] ) );
+		if ( ! $faqs ) {
+			continue;
+		}
+		$l[] = '### ' . $dec( $title ) . ' (' . top_public_url( (string) get_permalink( $id ) ) . ')';
+		foreach ( $faqs as $f ) {
+			$l[] = 'Q: ' . $dec( wp_strip_all_tags( $f['q'] ) );
+			$l[] = 'A: ' . $dec( wp_strip_all_tags( $f['a'] ) );
+		}
+		$l[] = '';
+	}
+
+	$l[] = '## Guides';
+	$l[] = '';
+	foreach ( get_posts( array( 'post_type' => 'post', 'posts_per_page' => 50, 'post_status' => 'publish' ) ) as $post ) {
+		$l[] = '- ' . $dec( get_the_title( $post ) ) . ' — ' . top_public_url( (string) get_permalink( $post ) );
+		if ( $post->post_excerpt ) {
+			$l[] = '  ' . $dec( $post->post_excerpt );
+		}
+	}
+	$l[] = '';
+	return implode( "\n", $l );
 }

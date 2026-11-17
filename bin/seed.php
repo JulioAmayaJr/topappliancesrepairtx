@@ -12,8 +12,44 @@ require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/media.php';
 require_once ABSPATH . 'wp-admin/includes/image.php';
 
+require_once '/project/bin/content.php';
+
 $content = json_decode( file_get_contents( '/project/seed/content.json' ), true );
 $posts   = json_decode( file_get_contents( '/project/seed/posts.json' ), true );
+$brand_data = json_decode( file_get_contents( '/project/seed/brands.json' ), true );
+$page_data  = json_decode( file_get_contents( '/project/seed/pages.json' ), true );
+$new_posts  = json_decode( file_get_contents( '/project/seed/posts-new.json' ), true );
+
+// Each service/brand page links to the article written for it, so the link runs both ways.
+$related_reading = array(
+	'service:dryer-repair'             => array( array( 'dryer-not-heating', 'Dryer not heating? Causes and fixes' ) ),
+	'service:dishwasher-repair'        => array( array( 'dishwasher-not-draining', 'Dishwasher not draining: causes and fixes' ) ),
+	'service:ice-maker-repair'         => array( array( 'ice-maker-not-making-ice', 'Ice maker not making ice? Here is why' ), array( 'samsung-ice-maker-freezing-up', 'Samsung ice maker freezing up?' ) ),
+	'service:stove-oven-repair'        => array( array( 'oven-not-heating', 'Oven not heating? Gas and electric causes' ) ),
+	'service:freezer-repair'           => array( array( 'freezer-not-freezing', 'Freezer not freezing? What to check' ) ),
+	'service:garbage-disposal-repair'  => array( array( 'garbage-disposal-humming', 'Garbage disposal humming but not working?' ) ),
+	'service:refrigerator-repair'      => array( array( 'refrigerator-not-cooling-what-might-be-wrong', 'Refrigerator not cooling: what might be wrong' ), array( 'freezer-not-freezing', 'Freezer not freezing? What to check' ) ),
+	'service:washer-repair'            => array( array( 'what-to-do-if-your-washing-machine-is-not-draining', 'Washing machine not draining? What to do' ) ),
+	'brand:samsung'                    => array( array( 'samsung-ice-maker-freezing-up', 'Samsung ice maker freezing up? Why it keeps happening' ) ),
+	'brand:bosch'                      => array( array( 'bosch-dishwasher-not-drying', 'Bosch dishwasher not drying? How condensation drying works' ) ),
+	'brand:ge'                         => array( array( 'ice-maker-not-making-ice', 'Ice maker not making ice? Here is why' ) ),
+	'brand:whirlpool'                  => array( array( 'dryer-not-heating', 'Dryer not heating? Causes and fixes' ) ),
+);
+$area_data  = json_decode( file_get_contents( '/project/seed/areas.json' ), true );
+
+// Lookup tables used by the brand/area content builders for internal links.
+$service_names = array();
+foreach ( $content['services'] as $s ) {
+	$service_names[ $s['slug'] ] = $s['title'];
+}
+$brand_names = array();
+foreach ( $content['brands'] as $b ) {
+	$brand_names[ sanitize_title( $b['title'] ) ] = $b['title'];
+}
+$area_titles = array();
+foreach ( $content['areas'] as $a ) {
+	$area_titles[ $a['slug'] ] = $a['title'];
+}
 
 function top_upsert( array $args, array $meta = array() ): int {
 	$existing = get_page_by_path( $args['post_name'], OBJECT, $args['post_type'] );
@@ -52,6 +88,11 @@ function top_seed_image( string $file, string $key, string $title, string $alt )
 }
 
 $p = fn( string $text ) => "<!-- wp:paragraph -->\n<p>" . esc_html( $text ) . "</p>\n<!-- /wp:paragraph -->";
+
+/** Related-reading section for an entity, or '' when it has no article yet. */
+function top_related_block( array $map, string $key ): string {
+	return isset( $map[ $key ] ) ? "\n\n" . top_build_related_reading( $map[ $key ] ) : '';
+}
 
 /** Attachment ID by seed key (imported by bin/configure.php). */
 function top_seed_attachment( string $key ): int {
@@ -114,7 +155,7 @@ foreach ( $content['services'] as $i => $s ) {
 				'post_title'   => $data['title'] ?? $s['title'],
 				'menu_order'   => $i,
 				'post_excerpt' => $data['excerpt'] ?? '',
-				'post_content' => file_get_contents( $html_file ),
+				'post_content' => file_get_contents( $html_file ) . top_related_block( $related_reading, 'service:' . $s['slug'] ),
 			),
 			$meta + array(
 				'top_h1'                  => $data['h1'] ?? '',
@@ -152,7 +193,7 @@ foreach ( $content['services'] as $i => $s ) {
 			'post_title'   => $s['title'],
 			'menu_order'   => $i,
 			'post_excerpt' => sprintf( 'Same-day %s service in Houston, TX: free estimate and a warranty on parts and labor.', strtolower( $s['title'] ) ),
-			'post_content' => $provisional . "\n\n" . $todo,
+			'post_content' => $provisional . "\n\n" . $todo . top_related_block( $related_reading, 'service:' . $s['slug'] ),
 		),
 		$meta + $provisional_meta
 	);
@@ -177,31 +218,59 @@ if ( $output_filters ) {
 	$GLOBALS['wp_filter']['image_editor_output_format'] = $output_filters;
 }
 foreach ( $content['brands'] as $i => $b ) {
+	$slug = sanitize_title( $b['title'] );
+	$d    = $brand_data[ $slug ] ?? null;
+	$meta = array( 'top_featured' => true, 'top_premium' => (bool) $b['premium'], 'top_logo_id' => $logo_ids[ $b['title'] ] ?? 0 );
+	if ( $d ) {
+		// Full page: direct-answer intro, appliances, brand notes, problems and FAQs.
+		$meta['top_h1']                = sprintf( '%s Appliance Repair in Houston, TX', $b['title'] );
+		$meta['top_faqs']              = $d['faqs'];
+		$meta['rank_math_description'] = $d['meta_description'];
+		$meta['rank_math_focus_keyword'] = strtolower( $b['title'] ) . ' appliance repair houston';
+		$content_html                  = top_build_brand_content( $d, $service_names ) . top_related_block( $related_reading, 'brand:' . $slug );
+		$excerpt                       = $d['meta_description'];
+	} else {
+		$content_html = $p( sprintf( 'Top Appliances Repair repairs %s appliances across Houston with same-day service, a free estimate and a warranty on parts and labor.', $b['title'] ) ) . "\n\n" . $todo;
+		$excerpt      = sprintf( '%s appliance repair in Houston, TX with same-day service.', $b['title'] );
+	}
 	top_upsert(
 		array(
 			'post_type'    => 'brand',
-			'post_name'    => sanitize_title( $b['title'] ),
+			'post_name'    => $slug,
 			'post_title'   => $b['title'],
 			'menu_order'   => $i,
-			'post_excerpt' => sprintf( '%s appliance repair in Houston, TX: refrigerators, laundry, dishwashers, ovens and more. Same-day service, free estimate, 90-day warranty.', $b['title'] ),
-			'post_content' => $p( sprintf( 'Top Appliances Repair repairs %s appliances across Houston with same-day service, a free estimate and a warranty on parts and labor.', $b['title'] ) ) . "\n\n" . $todo,
+			'post_excerpt' => $excerpt,
+			'post_content' => $content_html,
 		),
-		array( 'top_featured' => true, 'top_premium' => (bool) $b['premium'], 'top_logo_id' => $logo_ids[ $b['title'] ] ?? 0 )
+		$meta
 	);
 }
 
 /* ------------------------------------------------------------- Service areas */
 foreach ( $content['areas'] as $i => $a ) {
+	$d    = $area_data[ $a['slug'] ] ?? null;
+	$meta = array( 'top_zips' => implode( ',', $a['zips'] ), 'top_lat' => $a['lat'], 'top_lng' => $a['lng'], 'top_county' => $a['county'] );
+	if ( $d ) {
+		$meta['top_h1']                  = sprintf( 'Appliance Repair in %s, TX', $a['title'] );
+		$meta['top_faqs']                = $d['faqs'];
+		$meta['rank_math_description']   = $d['meta_description'];
+		$meta['rank_math_focus_keyword'] = 'appliance repair ' . strtolower( $a['title'] );
+		$content_html                    = top_build_area_content( $d, $service_names, $brand_names, $area_titles, $a );
+		$excerpt                         = $d['meta_description'];
+	} else {
+		$content_html = $p( sprintf( 'Top Appliances Repair serves homes in %s, TX with same-day appliance repair, a free estimate and a warranty on parts and labor.', $a['title'] ) ) . "\n\n" . $todo;
+		$excerpt      = sprintf( 'Same-day appliance repair in %s, TX.', $a['title'] );
+	}
 	top_upsert(
 		array(
 			'post_type'    => 'service_area',
 			'post_name'    => $a['slug'],
 			'post_title'   => $a['title'],
 			'menu_order'   => $i,
-			'post_excerpt' => sprintf( 'Same-day appliance repair in %s, TX: refrigerators, washers, dryers, dishwashers and ovens. Free estimate and a 90-day warranty on parts and labor.', $a['title'] ),
-			'post_content' => $p( sprintf( 'Top Appliances Repair serves homes in %s, TX with same-day appliance repair, a free estimate and a warranty on parts and labor.', $a['title'] ) ) . "\n\n" . $todo,
+			'post_excerpt' => $excerpt,
+			'post_content' => $content_html,
 		),
-		array( 'top_zips' => implode( ',', $a['zips'] ), 'top_lat' => $a['lat'], 'top_lng' => $a['lng'], 'top_county' => $a['county'] )
+		$meta
 	);
 }
 
@@ -220,6 +289,12 @@ foreach ( $posts as $post ) {
 			'post_date'     => $post['date'],
 			'post_date_gmt' => get_gmt_from_date( $post['date'] ),
 			'post_content'  => $p( $post['excerpt'] ) . "\n\n" . '<!-- wp:paragraph {"className":"ta-todo"} -->' . "\n<p class=\"ta-todo\">Migrate the full article from " . esc_url( $post['source'] ) . "</p>\n<!-- /wp:paragraph -->",
+		),
+		array_filter(
+			array(
+				'rank_math_title'       => $post['seo_title'] ?? '',
+				'rank_math_description' => $post['meta_description'] ?? '',
+			)
 		)
 	);
 	if ( $id ) {
@@ -246,13 +321,57 @@ foreach ( $posts as $post ) {
 	}
 }
 
+/* ------------------------------------------ Blog posts written for this site */
+// seed/posts/<slug>.html holds the article body; seed/posts-new.json holds the SEO
+// fields, the FAQs (which also generate the FAQPage schema) and the featured image.
+$social_for_photo = array(
+	'photo-appliance-repair-technician-houston-tx-16x9' => 'og-appliance-repair-technician-houston-tx',
+	'photo-oven-heating-element-houston-tx-16x9'        => 'og-oven-heating-element-houston-tx',
+	'photo-refrigerator-evaporator-coil-houston-tx-16x9' => 'og-refrigerator-repair-houston-tx',
+	'photo-refrigerator-compressor-houston-tx-16x9'     => 'og-refrigerator-compressor-houston-tx',
+);
+foreach ( $new_posts as $slug => $np ) {
+	$body = '/project/seed/posts/' . $slug . '.html';
+	if ( ! file_exists( $body ) ) {
+		continue;
+	}
+	$id = top_upsert(
+		array(
+			'post_type'     => 'post',
+			'post_name'     => $slug,
+			'post_title'    => $np['title'],
+			'post_excerpt'  => $np['excerpt'],
+			'post_date'     => $np['date'],
+			'post_date_gmt' => get_gmt_from_date( $np['date'] ),
+			'post_content'  => file_get_contents( $body ),
+		),
+		array(
+			'top_faqs'                => $np['faqs'],
+			'rank_math_title'         => $np['seo_title'],
+			'rank_math_description'   => $np['meta_description'],
+			'rank_math_focus_keyword' => $np['focus_keyword'],
+		)
+	);
+	if ( ! $id ) {
+		continue;
+	}
+	$img = top_seed_attachment( $np['image'] );
+	if ( $img ) {
+		set_post_thumbnail( $id, $img );
+	}
+	if ( isset( $social_for_photo[ $np['image'] ] ) ) {
+		top_set_social_image( $id, $social_for_photo[ $np['image'] ] );
+	}
+	wp_set_post_terms( $id, array( 'repair-tips' ), 'category' );
+}
+
 /* --------------------------------------------------------------------- Pages */
 $home_sections = array( 'hero', 'trust-bar', 'services', 'how-it-works', 'why-choose-us', 'brands', 'reviews', 'service-areas', 'resources', 'faq', 'cta-form' );
 $home_content  = implode( "\n\n", array_map( fn( $s ) => '<!-- wp:pattern {"slug":"top-appliance/' . $s . '"} /-->', $home_sections ) );
 $home = top_upsert(
 	array( 'post_type' => 'page', 'post_name' => 'home', 'post_title' => 'Home', 'post_content' => $home_content ),
 	array(
-		'rank_math_title'          => 'Same-Day Appliance Repair in Houston, TX | Top Appliances Repair',
+		'rank_math_title'          => 'Same-Day Appliance Repair Houston | Top Appliances Repair',
 		'rank_math_description'    => 'Same-day appliance repair in Houston, TX. Free estimate, 90-day warranty on parts and labor, all major brands including Sub-Zero. Call or book online.',
 		'rank_math_focus_keyword'  => 'appliance repair houston',
 		'rank_math_facebook_title' => 'Same-Day Appliance Repair in Houston, TX',
@@ -262,14 +381,19 @@ $home = top_upsert(
 		'rank_math_robots'         => array( 'index' ),
 	)
 );
-$about = top_upsert(
+$about_d = $page_data['about'];
+$about   = top_upsert(
 	array(
 		'post_type'    => 'page',
 		'post_name'    => 'about',
-		'post_title'   => 'About Top Appliances Repair',
-		'post_content' => $p( 'Top Appliances Repair is a Houston appliance repair company with more than 10 years of experience. We offer same-day service, a free estimate and a 90-day warranty on parts and labor, for every major brand including Sub-Zero.' ) . "\n\n" . $todo,
+		'post_title'   => $about_d['title'],
+		'post_content' => file_get_contents( '/project/seed/pages/about.html' ),
 	),
-	array( 'rank_math_description' => 'Meet Top Appliances Repair: a Houston appliance repair company with more than 10 years of experience, same-day service and a 90-day warranty.' )
+	array(
+		'top_faqs'              => $about_d['faqs'],
+		'rank_math_title'       => $about_d['meta_title'],
+		'rank_math_description' => $about_d['meta_description'],
+	)
 );
 $contact = top_upsert(
 	array(
@@ -293,12 +417,17 @@ $privacy = top_upsert(
 	)
 );
 update_option( 'wp_page_for_privacy_policy', $privacy );
+$terms_d = $page_data['terms'];
 top_upsert(
 	array(
 		'post_type'    => 'page',
 		'post_name'    => 'terms',
-		'post_title'   => 'Terms of Service',
-		'post_content' => $p( 'Estimates are provided before any work starts and repairs begin only after you approve them. Repairs are covered by our warranty on parts and labor.' ) . "\n\n" . '<!-- wp:paragraph {"className":"ta-todo"} -->' . "\n<p class=\"ta-todo\">Write the full terms with the client before launch.</p>\n<!-- /wp:paragraph -->",
+		'post_title'   => $terms_d['title'],
+		'post_content' => file_get_contents( '/project/seed/pages/terms.html' ),
+	),
+	array(
+		'rank_math_title'       => $terms_d['meta_title'],
+		'rank_math_description' => $terms_d['meta_description'],
 	)
 );
 
